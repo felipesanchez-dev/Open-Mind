@@ -1,3 +1,5 @@
+"use client";
+
 import { Button } from "@/components/ui/button";
 import {
   Card,
@@ -9,9 +11,16 @@ import {
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
 import { Separator } from "@/components/ui/separator";
-import { Github, Mail, Eye } from "lucide-react";
+import { Github, Mail, Eye, EyeOff } from "lucide-react";
+import { useState } from "react";
 
 export default function LoginPage() {
+  const [showPassword, setShowPassword] = useState(false);
+
+  const togglePasswordVisibility = () => {
+    setShowPassword(!showPassword);
+  };
+
   return (
     <Card className="border-0 shadow-none bg-transparent">
       <CardHeader className="text-center space-y-2 px-0">
@@ -27,7 +36,7 @@ export default function LoginPage() {
         <div className="space-y-3">
           <Button
             variant="outline"
-            className="w-full h-11 bg-background/50 hover:bg-background/80 border-border/50"
+            className="w-full h-11 bg-background/50 hover:bg-background/80 border-border/50 cursor-hover transition-all duration-300 hover:scale-[1.02] hover:shadow-lg"
           >
             <Github className="size-4 mr-2" />
             Continuar con GitHub
@@ -35,7 +44,7 @@ export default function LoginPage() {
 
           <Button
             variant="outline"
-            className="w-full h-11 bg-background/50 hover:bg-background/80 border-border/50"
+            className="w-full h-11 bg-background/50 hover:bg-background/80 border-border/50 cursor-hover transition-all duration-300 hover:scale-[1.02] hover:shadow-lg"
           >
             <Mail className="size-4 mr-2" />
             Continuar con Google
@@ -62,7 +71,7 @@ export default function LoginPage() {
               id="email"
               type="email"
               placeholder="tu@ejemplo.com"
-              className="h-11 bg-background/50 border-border/50 focus:bg-background"
+              className="h-11 bg-background/50 border-border/50 focus:bg-background cursor-hover transition-all duration-300 focus:scale-[1.01] focus:shadow-md"
               required
             />
           </div>
@@ -74,7 +83,7 @@ export default function LoginPage() {
               </Label>
               <Button
                 variant="link"
-                className="h-auto p-0 text-xs text-muted-foreground hover:text-primary"
+                className="h-auto p-0 text-xs text-muted-foreground hover:text-primary cursor-hover transition-all duration-300"
               >
                 ¿Olvidaste tu contraseña?
               </Button>
@@ -82,23 +91,28 @@ export default function LoginPage() {
             <div className="relative">
               <Input
                 id="password"
-                type="password"
+                type={showPassword ? "text" : "password"}
                 placeholder="Ingresa tu contraseña"
-                className="h-11 bg-background/50 border-border/50 focus:bg-background pr-10"
+                className="h-11 bg-background/50 border-border/50 focus:bg-background pr-10 cursor-hover transition-all duration-300 focus:scale-[1.01] focus:shadow-md"
                 required
               />
               <Button
                 type="button"
                 variant="ghost"
                 size="sm"
-                className="absolute right-0 top-0 h-full px-3 py-2 hover:bg-transparent"
+                onClick={togglePasswordVisibility}
+                className="absolute right-0 top-0 h-full px-3 py-2 hover:bg-transparent cursor-hover transition-all duration-300 hover:scale-110"
               >
-                <Eye className="size-4 text-muted-foreground" />
+                {showPassword ? (
+                  <EyeOff className="size-4 text-muted-foreground" />
+                ) : (
+                  <Eye className="size-4 text-muted-foreground" />
+                )}
               </Button>
             </div>
           </div>
 
-          <Button className="w-full h-11 bg-primary hover:bg-primary/90">
+          <Button className="w-full h-11 bg-primary hover:bg-primary/90 cursor-hover transition-all duration-300 hover:scale-[1.02] hover:shadow-lg">
             Iniciar sesión
           </Button>
         </form>
@@ -107,7 +121,7 @@ export default function LoginPage() {
           ¿No tienes una cuenta?{" "}
           <Button
             variant="link"
-            className="h-auto p-0 text-primary hover:text-primary/80 font-medium"
+            className="h-auto p-0 text-primary hover:text-primary/80 font-medium cursor-hover transition-all duration-300"
           >
             Regístrate aquí
           </Button>

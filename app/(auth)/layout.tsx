@@ -17,7 +17,7 @@ export default function AuthLayout({ children }: { children: ReactNode }) {
           variant: "ghost",
           size: "sm",
           className:
-            "absolute top-6 left-6 z-10 hover:bg-background/80 backdrop-blur-sm",
+            "absolute top-6 left-6 z-10 hover:bg-background/80 backdrop-blur-sm cursor-hover transition-all duration-300 hover:scale-105",
         })}
       >
         <ArrowLeft className="size-4 mr-2" />
@@ -29,7 +29,7 @@ export default function AuthLayout({ children }: { children: ReactNode }) {
           <div className="flex flex-col items-center gap-4">
             <Link
               href="/"
-              className="group flex items-center gap-3 transition-transform hover:scale-105"
+              className="group flex items-center gap-3 transition-transform hover:scale-105 cursor-hover"
             >
               <div className="relative">
                 <div className="absolute -inset-2 rounded-full bg-gradient-to-r from-primary/20 to-secondary/20 blur-lg group-hover:blur-xl transition-all" />
@@ -65,14 +65,14 @@ export default function AuthLayout({ children }: { children: ReactNode }) {
             Al continuar, aceptas nuestros{" "}
             <Link
               href="/terms"
-              className="font-medium text-primary hover:text-primary/80 hover:underline underline-offset-4 transition-colors"
+              className="font-medium text-primary hover:text-primary/80 hover:underline underline-offset-4 transition-colors cursor-hover"
             >
               Términos de Servicio
             </Link>{" "}
             y{" "}
             <Link
               href="/privacy"
-              className="font-medium text-primary hover:text-primary/80 hover:underline underline-offset-4 transition-colors"
+              className="font-medium text-primary hover:text-primary/80 hover:underline underline-offset-4 transition-colors cursor-hover"
             >
               Política de Privacidad
             </Link>
