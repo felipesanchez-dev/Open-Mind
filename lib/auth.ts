@@ -262,7 +262,7 @@ export const auth = betterAuth({
               </div>
             </body>
           </html>
-            `,
+                `,
           });
 
           if (error) {
