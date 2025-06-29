@@ -27,9 +27,8 @@ export const auth = betterAuth({
       async sendVerificationOTP({ email, otp, type }) {
         try {
           console.log(`Enviando OTP ${otp} a ${email} para ${type}`);
-
           const { data, error } = await resend.emails.send({
-            from: "OPEN MIND <onboarding@resend.dev>",
+            from: "OPEN MIND <felipe@felipesanchezdev.site>",
             to: [email],
             subject: "OPEN MIND - Código de Verificación",
             html: `

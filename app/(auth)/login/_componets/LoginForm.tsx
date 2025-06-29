@@ -209,44 +209,6 @@ export function LoginForm() {
               required
             />
           </div>
-
-          <div className="space-y-2">
-            <div className="flex items-center justify-between">
-              <Label htmlFor="password" className="text-sm font-medium">
-                Contraseña
-              </Label>
-              <Button
-                type="button"
-                variant="link"
-                className="h-auto p-0 text-xs text-muted-foreground hover:text-primary cursor-hover transition-all duration-300"
-              >
-                ¿Olvidaste tu contraseña?
-              </Button>
-            </div>
-            <div className="relative">
-              <Input
-                id="password"
-                type={showPassword ? "text" : "password"}
-                placeholder="Ingresa tu contraseña"
-                className="h-11 bg-background/50 border-border/50 focus:bg-background pr-10 cursor-hover transition-all duration-300 focus:scale-[1.01] focus:shadow-md"
-                required
-              />
-              <Button
-                type="button"
-                variant="ghost"
-                size="sm"
-                onClick={togglePasswordVisibility}
-                className="absolute right-0 top-0 h-full px-3 py-2 hover:bg-transparent cursor-hover transition-all duration-300 hover:scale-110"
-              >
-                {showPassword ? (
-                  <EyeOff className="size-4 text-muted-foreground" />
-                ) : (
-                  <Eye className="size-4 text-muted-foreground" />
-                )}
-              </Button>
-            </div>
-          </div>
-
           <Button
             type="submit"
             disabled={emailPending}

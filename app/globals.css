@@ -164,3 +164,53 @@
 .animate-float {
   animation: float 3s ease-in-out infinite;
 }
+
+/* Custom animations for OTP verification page */
+@keyframes pulse-glow {
+  0%, 100% { box-shadow: 0 0 0 0 rgba(var(--primary) / 0.4); }
+  50% { box-shadow: 0 0 0 8px rgba(var(--primary) / 0.1); }
+}
+
+@keyframes shake {
+  0%, 100% { transform: translateX(0); }
+  25% { transform: translateX(-4px); }
+  75% { transform: translateX(4px); }
+}
+
+.animate-pulse-glow {
+  animation: pulse-glow 2s infinite;
+}
+
+.animate-shake {
+  animation: shake 0.5s ease-in-out;
+}
+
+/* OTP Input custom styles */
+.otp-input-success {
+  border-color: hsl(var(--primary));
+  box-shadow: 0 0 0 2px rgba(var(--primary) / 0.2);
+}
+
+.otp-input-error {
+  border-color: hsl(var(--destructive));
+  box-shadow: 0 0 0 2px rgba(var(--destructive) / 0.2);
+  animation: shake 0.5s ease-in-out;
+}
+
+/* Gradient text animation */
+@keyframes gradient-shift {
+  0% { background-position: 0% 50%; }
+  50% { background-position: 100% 50%; }
+  100% { background-position: 0% 50%; }
+}
+
+.animate-gradient {
+  background-size: 200% 200%;
+  animation: gradient-shift 3s ease infinite;
+}
+
+/* Backdrop blur enhancement */
+.backdrop-blur-enhanced {
+  backdrop-filter: blur(20px) saturate(180%);
+  -webkit-backdrop-filter: blur(20px) saturate(180%);
+}
