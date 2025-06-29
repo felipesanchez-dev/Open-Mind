@@ -223,7 +223,8 @@ export default function Home() {
                         <span className="hidden sm:inline">
                           Comenzar Gratis
                         </span>
-                        <span className="sm:hidden">Gratis</span>
+                        <span className="sm:hidden">Comenzar</span>
+                        <ArrowRight className="w-4 h-4 ml-2 group-hover:translate-x-1 transition-transform" />
                       </Button>
                     </Link>
                   )}
