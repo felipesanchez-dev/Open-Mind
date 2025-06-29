@@ -2,11 +2,11 @@
 import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
 import { authClient } from "@/lib/auth-client";
-import { ArrowRight, Play, BookOpen } from "lucide-react";
+import { ArrowRight, Play, BookOpen, Sparkles } from "lucide-react";
 import Link from "next/link";
 import { useState, useEffect } from "react";
 import { useRipple } from "@/hooks/use-ripple";
-import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
+import { Card, CardContent } from "@/components/ui/card";
 
 interface featureProps {
   title: string;
@@ -52,6 +52,8 @@ export default function Home() {
       animationDuration: string;
     }>
   >([]);
+  const [currentFeature, setCurrentFeature] = useState(0);
+  const [isAutoPlaying, setIsAutoPlaying] = useState(true);
   const createRipple = useRipple();
 
   useEffect(() => {
@@ -88,12 +90,37 @@ export default function Home() {
         id: i,
         left: `${Math.random() * 100}%`,
         top: `${Math.random() * 100}%`,
-        animationDelay: `${Math.random() * 5}s`,
-        animationDuration: `${3 + Math.random() * 4}s`,
+        animationDelay: `${Math.random() * 2}s`,
+        animationDuration: `${3 + Math.random() * 1}s`,
       }));
       setParticles(newParticles);
     }
   }, [isClient, particleCount]);
+
+  useEffect(() => {
+    if (!isAutoPlaying) return;
+
+    const interval = setInterval(() => {
+      setCurrentFeature((prev) => (prev + 1) % feature.length);
+    }, 4000);
+
+    return () => clearInterval(interval);
+  }, [isAutoPlaying]);
+
+  const nextFeature = () => {
+    setCurrentFeature((prev) => (prev + 1) % feature.length);
+    setIsAutoPlaying(false);
+  };
+
+  const prevFeature = () => {
+    setCurrentFeature((prev) => (prev - 1 + feature.length) % feature.length);
+    setIsAutoPlaying(false);
+  };
+
+  const goToFeature = (index: number) => {
+    setCurrentFeature(index);
+    setIsAutoPlaying(false);
+  };
 
   return (
     <>
@@ -112,18 +139,19 @@ export default function Home() {
           <div className="absolute top-1/4 -right-1/4 w-96 h-96 bg-gradient-to-br from-blue-400/20 to-purple-400/20 rounded-full blur-3xl animate-pulse" />
           <div className="absolute -bottom-1/4 -left-1/4 w-96 h-96 bg-gradient-to-tr from-cyan-400/20 to-blue-400/20 rounded-full blur-3xl animate-bounce-slow" />
 
-          {isClient && particles.map((particle) => (
-            <div
-              key={particle.id}
-              className="absolute w-2 h-2 bg-gradient-to-r from-primary/30 to-secondary/30 rounded-full animate-float"
-              style={{
-                left: particle.left,
-                top: particle.top,
-                animationDelay: particle.animationDelay,
-                animationDuration: particle.animationDuration,
-              }}
-            />
-          ))}
+          {isClient &&
+            particles.map((particle) => (
+              <div
+                key={particle.id}
+                className="absolute w-2 h-2 bg-gradient-to-r from-primary/30 to-secondary/30 rounded-full animate-float"
+                style={{
+                  left: particle.left,
+                  top: particle.top,
+                  animationDelay: particle.animationDelay,
+                  animationDuration: particle.animationDuration,
+                }}
+              />
+            ))}
         </div>
 
         <section className="relative w-full max-w-6xl mx-auto px-4 sm:px-6 lg:px-8 h-full flex items-center justify-center">
@@ -234,20 +262,125 @@ export default function Home() {
           </div>
         </section>
       </div>
-      <section className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
-        {feature.map((feature, index) => (
-          <Card key={index} className="hover:shadow-lg transition-shadow">
-            <CardHeader>
-              <div className="flex items-center justify-center p-4">
-                <span className="text-3xl">{feature.icon}</span>
+      <section className="py-16 px-4 sm:px-6 lg:px-8 bg-gradient-to-br from-background via-primary/5 to-secondary/5 relative overflow-hidden">
+        <div className="absolute inset-0 overflow-hidden pointer-events-none">
+          <div className="absolute top-1/4 left-1/4 w-72 h-72 bg-gradient-to-r from-primary/10 to-secondary/10 rounded-full blur-3xl animate-pulse" />
+          <div className="absolute bottom-1/4 right-1/4 w-72 h-72 bg-gradient-to-l from-blue-500/10 to-purple-500/10 rounded-full blur-3xl animate-bounce" />
+        </div>
+
+        <div className="relative max-w-7xl mx-auto">
+          <div className="text-center mb-12 px-2">
+            <div className="inline-flex items-center gap-2 px-4 py-2 rounded-full bg-primary/10 border border-primary/20 mb-4">
+              <Sparkles className="w-4 h-4 text-primary animate-pulse" />
+              <span className="text-sm font-medium text-primary">
+                ¿Por qué elegir Open Mind?
+              </span>
+            </div>
+            <h2 className="text-3xl sm:text-4xl lg:text-5xl font-black text-foreground mb-4 leading-tight">
+              Características que nos hacen únicos
+            </h2>
+            <p className="text-base sm:text-lg text-muted-foreground max-w-2xl mx-auto">
+              Descubre lo que hace de Open Mind la mejor plataforma para tu
+              crecimiento personal y profesional.
+            </p>
+          </div>
+
+          <div className="relative">
+            <div className="relative min-h-[20rem] sm:min-h-[28rem] mb-10">
+              <div className="absolute inset-0 overflow-visible rounded-3xl">
+                {feature.map((feat, index) => (
+                  <div
+                    key={index}
+                    className={`absolute inset-0 transition-all duration-700 ease-in-out transform ${
+                      index === currentFeature
+                        ? "opacity-100 translate-x-0 scale-100 z-10"
+                        : "opacity-0 translate-x-10 scale-95 pointer-events-none"
+                    }`}
+                  >
+                    <Card className="h-full bg-gradient-to-br from-card/50 via-card to-card/80 backdrop-blur-sm border-primary/20 shadow-xl">
+                      <CardContent className="flex flex-col items-center justify-center h-full p-5 sm:p-10 text-center">
+                        <div className="mb-6 relative flex flex-col items-center justify-center">
+                          <div className="w-20 h-20 sm:w-28 sm:h-28 bg-gradient-to-br from-primary/20 to-secondary/20 rounded-full flex items-center justify-center mb-4 sm:mb-6 animate-bounce">
+                            <span className="text-3xl sm:text-5xl">
+                              {feat.icon}
+                            </span>
+                          </div>
+                          <div className="absolute -inset-4 bg-gradient-to-r from-primary/20 to-secondary/20 rounded-full blur-xl opacity-50 animate-pulse pointer-events-none" />
+                        </div>
+                        <h3 className="text-xl sm:text-2xl font-bold text-foreground mb-3">
+                          {feat.title}
+                        </h3>
+                        <p className="text-sm sm:text-base text-muted-foreground max-w-md leading-relaxed">
+                          {feat.description}
+                        </p>
+                      </CardContent>
+                    </Card>
+                  </div>
+                ))}
               </div>
-              <CardTitle>{feature.title}</CardTitle>
-            </CardHeader>
-            <CardContent>
-              <p className="text-muted-foreground">{feature.description}</p>
-            </CardContent>
-          </Card>
-        ))}
+            </div>
+          </div>
+
+          <div className="flex justify-center gap-3 mb-8">
+            {feature.map((_, index) => (
+              <button
+                key={index}
+                onClick={() => goToFeature(index)}
+                aria-label={`Ir a la característica ${index + 1}`}
+                className={`w-3 h-3 rounded-full transition-all duration-300 focus:outline-none focus:ring-2 ring-offset-2 ring-primary/50 ${
+                  index === currentFeature
+                    ? "bg-primary scale-125 shadow-md"
+                    : "bg-muted-foreground/30 hover:bg-muted-foreground/50"
+                }`}
+              />
+            ))}
+          </div>
+
+          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4 px-2">
+            {feature.map((feat, index) => (
+              <button
+                key={index}
+                onClick={() => goToFeature(index)}
+                className={`p-4 sm:p-5 rounded-xl transition-all duration-300 text-left group ${
+                  index === currentFeature
+                    ? "bg-primary/10 border-2 border-primary/30 shadow-md scale-[1.03]"
+                    : "bg-card/50 border border-border hover:bg-card/80 hover:border-primary/20"
+                }`}
+              >
+                <div className="flex items-center gap-3 mb-2">
+                  <span className="text-xl group-hover:scale-110 transition-transform">
+                    {feat.icon}
+                  </span>
+                  <h4
+                    className={`font-semibold text-sm sm:text-base ${
+                      index === currentFeature
+                        ? "text-primary"
+                        : "text-foreground"
+                    }`}
+                  >
+                    {feat.title}
+                  </h4>
+                </div>
+                <p className="text-xs sm:text-sm text-muted-foreground leading-relaxed">
+                  {feat.description}
+                </p>
+              </button>
+            ))}
+          </div>
+
+          <div className="flex justify-center mt-10">
+            <button
+              onClick={() => setIsAutoPlaying(!isAutoPlaying)}
+              className={`px-5 py-2 rounded-full text-sm font-medium transition-all duration-300 focus:outline-none cursor-pointer ${
+                isAutoPlaying
+                  ? "bg-primary/10 text-primary border border-primary/20"
+                  : "bg-muted/50 text-muted-foreground border border-border"
+              }`}
+            >
+              {isAutoPlaying ? "Pausar" : "Reproducir"} auto-avance
+            </button>
+          </div>
+        </div>
       </section>
     </>
   );
