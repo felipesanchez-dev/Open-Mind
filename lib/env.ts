@@ -12,6 +12,7 @@ export const env = createEnv({
     GOOGLE_CLIENT_SECRET: z.string().min(1),
     BASE_URL: z.string().url(),
     RESEND_API_KEY: z.string().min(1),
+    ARCJET_KEY: z.string().optional(),
   },
   experimental__runtimeEnv: {},
 });
