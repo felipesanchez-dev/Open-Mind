@@ -11,15 +11,36 @@ import {
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
 import { Separator } from "@/components/ui/separator";
-import { Github, Mail, Eye, EyeOff } from "lucide-react";
-import { useState } from "react";
+import { authClient } from "@/lib/auth-client";
+import { Mail, Eye, EyeOff, Loader, GithubIcon } from "lucide-react";
+import { useState, useTransition } from "react";
+import { toast } from "sonner";
 
 export default function LoginPage() {
+  const [githubPending, startGithubTransition] = useTransition();
   const [showPassword, setShowPassword] = useState(false);
 
   const togglePasswordVisibility = () => {
     setShowPassword(!showPassword);
   };
+
+  async function signInWithGithub() {
+    startGithubTransition(async () => {
+      await authClient.signIn.social({
+        provider: "github",
+        callbackURL: "/",
+        fetchOptions: {
+          onSuccess: () => {
+            toast.success("Inicio de sesión exitoso con GitHub");
+          },
+          onError: () => {
+            toast.error("Error al iniciar sesión con GitHub");
+          },
+        },
+      });
+    });
+  }
+
 
   return (
     <Card className="border-0 shadow-none bg-transparent">
@@ -35,11 +56,24 @@ export default function LoginPage() {
       <CardContent className="space-y-6 px-0">
         <div className="space-y-3">
           <Button
+            disabled={githubPending}
+            onClick={signInWithGithub}
             variant="outline"
             className="w-full h-11 bg-background/50 hover:bg-background/80 border-border/50 cursor-hover transition-all duration-300 hover:scale-[1.02] hover:shadow-lg"
           >
-            <Github className="size-4 mr-2" />
-            Continuar con GitHub
+            {
+                githubPending ? (
+                    <>
+                        <Loader className="size-4 animate-spin" />
+                        <span>Iniciando Sesión...</span>
+                    </>
+                ): (
+                    <>
+                    <GithubIcon className="size-4" />
+                    Continuar con GitHub
+                    </>
+                )
+            }
           </Button>
 
           <Button
