@@ -88,8 +88,8 @@ export default function Home() {
         id: i,
         left: `${Math.random() * 100}%`,
         top: `${Math.random() * 100}%`,
-        animationDelay: `${Math.random() * 9}s`,
-        animationDuration: `${3 + Math.random() * 80}s`,
+        animationDelay: `${Math.random() * 5}s`,
+        animationDuration: `${3 + Math.random() * 4}s`,
       }));
       setParticles(newParticles);
     }
@@ -112,15 +112,15 @@ export default function Home() {
           <div className="absolute top-1/4 -right-1/4 w-96 h-96 bg-gradient-to-br from-blue-400/20 to-purple-400/20 rounded-full blur-3xl animate-pulse" />
           <div className="absolute -bottom-1/4 -left-1/4 w-96 h-96 bg-gradient-to-tr from-cyan-400/20 to-blue-400/20 rounded-full blur-3xl animate-bounce-slow" />
 
-          {Array.from({ length: particleCount }).map((_, i) => (
+          {isClient && particles.map((particle) => (
             <div
-              key={i}
+              key={particle.id}
               className="absolute w-2 h-2 bg-gradient-to-r from-primary/30 to-secondary/30 rounded-full animate-float"
               style={{
-                left: `${Math.random() * 100}%`,
-                top: `${Math.random() * 100}%`,
-                animationDelay: `${Math.random() * 5}s`,
-                animationDuration: `${3 + Math.random() * 4}s`,
+                left: particle.left,
+                top: particle.top,
+                animationDelay: particle.animationDelay,
+                animationDuration: particle.animationDuration,
               }}
             />
           ))}
