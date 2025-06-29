@@ -18,6 +18,7 @@ import { toast } from "sonner";
 
 export default function LoginPage() {
   const [githubPending, startGithubTransition] = useTransition();
+  const [googlePending, startGoogleTransition] = useTransition();
   const [showPassword, setShowPassword] = useState(false);
 
   const togglePasswordVisibility = () => {
@@ -41,6 +42,22 @@ export default function LoginPage() {
     });
   }
 
+  async function signInWithGoogle() {
+    startGoogleTransition(async () => {
+      await authClient.signIn.social({
+        provider: "google",
+        callbackURL: "/",
+        fetchOptions: {
+          onSuccess: () => {
+            toast.success("Inicio de sesión exitoso con Google");
+          },
+          onError: () => {
+            toast.error("Error al iniciar sesión con Google");
+          },
+        },
+      });
+    });
+  }
 
   return (
     <Card className="border-0 shadow-none bg-transparent">
@@ -61,27 +78,36 @@ export default function LoginPage() {
             variant="outline"
             className="w-full h-11 bg-background/50 hover:bg-background/80 border-border/50 cursor-hover transition-all duration-300 hover:scale-[1.02] hover:shadow-lg"
           >
-            {
-                githubPending ? (
-                    <>
-                        <Loader className="size-4 animate-spin" />
-                        <span>Iniciando Sesión...</span>
-                    </>
-                ): (
-                    <>
-                    <GithubIcon className="size-4" />
-                    Continuar con GitHub
-                    </>
-                )
-            }
+            {githubPending ? (
+              <>
+                <Loader className="size-4 animate-spin" />
+                <span>Iniciando Sesión...</span>
+              </>
+            ) : (
+              <>
+                <GithubIcon className="size-4" />
+                Continuar con GitHub
+              </>
+            )}
           </Button>
 
           <Button
+            disabled={googlePending}
+            onClick={signInWithGoogle}
             variant="outline"
             className="w-full h-11 bg-background/50 hover:bg-background/80 border-border/50 cursor-hover transition-all duration-300 hover:scale-[1.02] hover:shadow-lg"
           >
-            <Mail className="size-4 mr-2" />
-            Continuar con Google
+            {googlePending ? (
+              <>
+                <Loader className="size-4 animate-spin" />
+                <span>Iniciando Sesión...</span>
+              </>
+            ) : (
+              <>
+                <Mail className="size-4 mr-2" />
+                Continuar con Google
+              </>
+            )}
           </Button>
         </div>
 
