@@ -15,7 +15,6 @@ export async function middleware(request: NextRequest) {
       const response = NextResponse.next();
       response.headers.set("x-has-auth-cookie", "true");
       return response;
-      
     }
   } catch (error) {
     console.error("Middleware auth error:", error);
@@ -27,4 +26,3 @@ export async function middleware(request: NextRequest) {
 export const config = {
   matcher: ["/login", "/register", "/forgot-password"],
 };
-    

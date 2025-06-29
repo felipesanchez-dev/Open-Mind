@@ -1,4 +1,4 @@
-'use client'
+"use client";
 
 import { Button } from "@/components/ui/button";
 import {
@@ -12,14 +12,27 @@ import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
 import { Separator } from "@/components/ui/separator";
 import { authClient } from "@/lib/auth-client";
-import { Mail, Eye, EyeOff, Loader, GithubIcon } from "lucide-react";
+import {
+  Mail,
+  Eye,
+  EyeOff,
+  Loader,
+  GithubIcon,
+  Loader2,
+  Send,
+} from "lucide-react";
+import { useRouter } from "next/navigation";
 import { useState, useTransition } from "react";
 import { toast } from "sonner";
 
 export function LoginForm() {
-    const [githubPending, startGithubTransition] = useTransition();
+  const route = useRouter();
+
+  const [githubPending, startGithubTransition] = useTransition();
   const [googlePending, startGoogleTransition] = useTransition();
+  const [emailPending, startEmailTransition] = useTransition();
   const [showPassword, setShowPassword] = useState(false);
+  const [email, setEmail] = useState("");
 
   const togglePasswordVisibility = () => {
     setShowPassword(!showPassword);
@@ -58,8 +71,68 @@ export function LoginForm() {
       });
     });
   }
-    return (
-         <Card className="border-0 shadow-none bg-transparent">
+
+  function signInWithEmail(e: React.FormEvent) {
+    e.preventDefault();
+
+    if (!email.trim()) {
+      toast.error("Por favor ingresa tu correo electrónico");
+      return;
+    }
+
+    const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+    if (!emailRegex.test(email)) {
+      toast.error("Por favor ingresa un correo electrónico válido");
+      return;
+    }
+
+    startEmailTransition(async () => {
+      try {
+        console.log("Enviando OTP a:", email);
+
+        await authClient.emailOtp.sendVerificationOtp({
+          email: email.trim(),
+          type: "sign-in",
+          fetchOptions: {
+            onSuccess: (data) => {
+              console.log("OTP enviado exitosamente:", data);
+              toast.success("¡Código enviado! Revisa tu correo electrónico");
+              route.push(`/verify-request?email=${encodeURIComponent(email)}`);
+            },
+            onError: (ctx) => {
+              console.error("Error completo:", ctx);
+              console.error("Error status:", ctx.response?.status);
+              console.error("Error message:", ctx.error?.message);
+
+              if (ctx.response?.status === 500) {
+                toast.error(
+                  "Error del servidor. Verifica la configuración de email"
+                );
+              } else if (ctx.response?.status === 400) {
+                toast.error("Email inválido o no registrado");
+              } else if (ctx.error?.message?.includes("User not found")) {
+                toast.error("No se encontró una cuenta con este email");
+              } else if (ctx.error?.message?.includes("Rate limit")) {
+                toast.error("Demasiados intentos. Espera un momento");
+              } else {
+                const errorMsg = ctx.error?.message || "Error desconocido";
+                toast.error(`Error: ${errorMsg}`);
+              }
+            },
+            onRequest: () => {
+              console.log("Iniciando petición OTP...");
+            },
+          },
+        });
+      } catch (error) {
+        console.error("Error inesperado:", error);
+        toast.error("Error inesperado. Revisa la consola para más detalles");
+      }
+    });
+  }
+
+  return (
+    <Card className="border-0 shadow-none bg-transparent">
       <CardHeader className="text-center space-y-2 px-0">
         <CardTitle className="text-2xl font-bold">
           Bienvenido de vuelta
@@ -121,12 +194,14 @@ export function LoginForm() {
           </div>
         </div>
 
-        <form className="space-y-4">
+        <form onSubmit={signInWithEmail} className="space-y-4">
           <div className="space-y-2">
             <Label htmlFor="email" className="text-sm font-medium">
               Correo electrónico
             </Label>
             <Input
+              value={email}
+              onChange={(e) => setEmail(e.target.value)}
               id="email"
               type="email"
               placeholder="tu@ejemplo.com"
@@ -141,6 +216,7 @@ export function LoginForm() {
                 Contraseña
               </Label>
               <Button
+                type="button"
                 variant="link"
                 className="h-auto p-0 text-xs text-muted-foreground hover:text-primary cursor-hover transition-all duration-300"
               >
@@ -171,8 +247,22 @@ export function LoginForm() {
             </div>
           </div>
 
-          <Button className="w-full h-11 bg-primary hover:bg-primary/90 cursor-hover transition-all duration-300 hover:scale-[1.02] hover:shadow-lg">
-            Iniciar sesión
+          <Button
+            type="submit"
+            disabled={emailPending}
+            className="w-full h-11 bg-primary hover:bg-primary/90 cursor-hover transition-all duration-300 hover:scale-[1.02] hover:shadow-lg"
+          >
+            {emailPending ? (
+              <>
+                <Loader2 className="size-4 animate-spin mr-2" />
+                Enviando código...
+              </>
+            ) : (
+              <>
+                <Send className="size-4 mr-2" />
+                Iniciar Sesión
+              </>
+            )}
           </Button>
         </form>
 
@@ -187,5 +277,5 @@ export function LoginForm() {
         </div>
       </CardContent>
     </Card>
-    )
+  );
 }
