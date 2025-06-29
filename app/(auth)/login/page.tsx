@@ -1,192 +1,61 @@
-"use client";
+import { auth } from "@/lib/auth";
+import { LoginForm } from "./_componets/LoginForm";
+import { headers } from "next/headers";
+import { redirect } from "next/navigation";
+import { cache } from "react";
 
-import { Button } from "@/components/ui/button";
-import {
-  Card,
-  CardContent,
-  CardDescription,
-  CardHeader,
-  CardTitle,
-} from "@/components/ui/card";
-import { Input } from "@/components/ui/input";
-import { Label } from "@/components/ui/label";
-import { Separator } from "@/components/ui/separator";
-import { authClient } from "@/lib/auth-client";
-import { Mail, Eye, EyeOff, Loader, GithubIcon } from "lucide-react";
-import { useState, useTransition } from "react";
-import { toast } from "sonner";
+const getSessionOptimized = cache(async () => {
+  try {
+    const headersList = await headers();
 
-export default function LoginPage() {
-  const [githubPending, startGithubTransition] = useTransition();
-  const [googlePending, startGoogleTransition] = useTransition();
-  const [showPassword, setShowPassword] = useState(false);
+    const authCookie = headersList.get("cookie");
+    if (!authCookie?.includes("session") && !authCookie?.includes("auth")) {
+      return null;
+    }
 
-  const togglePasswordVisibility = () => {
-    setShowPassword(!showPassword);
-  };
+    return await auth.api.getSession({ headers: headersList });
+  } catch (error) {
+    console.error("Session check error:", error);
+    return null;
+  }
+});
 
-  async function signInWithGithub() {
-    startGithubTransition(async () => {
-      await authClient.signIn.social({
-        provider: "github",
-        callbackURL: "/",
-        fetchOptions: {
-          onSuccess: () => {
-            toast.success("Inicio de sesión exitoso con GitHub");
-          },
-          onError: () => {
-            toast.error("Error al iniciar sesión con GitHub");
-          },
-        },
-      });
-    });
+function getOptimalRedirectUrl(session: any) {
+  if (!session?.user) return null;
+
+  const user = session.user;
+
+  if (user.lastVisitedRoute && user.lastVisitedRoute !== "/login") {
+    return user.lastVisitedRoute;
   }
 
-  async function signInWithGoogle() {
-    startGoogleTransition(async () => {
-      await authClient.signIn.social({
-        provider: "google",
-        callbackURL: "/",
-        fetchOptions: {
-          onSuccess: () => {
-            toast.success("Inicio de sesión exitoso con Google");
-          },
-          onError: () => {
-            toast.error("Error al iniciar sesión con Google");
-          },
-        },
-      });
-    });
+  if (!user.profileComplete) {
+    return "/";
   }
-
-  return (
-    <Card className="border-0 shadow-none bg-transparent">
-      <CardHeader className="text-center space-y-2 px-0">
-        <CardTitle className="text-2xl font-bold">
-          Bienvenido de vuelta
-        </CardTitle>
-        <CardDescription className="text-muted-foreground">
-          Inicia sesión en tu cuenta para continuar
-        </CardDescription>
-      </CardHeader>
-
-      <CardContent className="space-y-6 px-0">
-        <div className="space-y-3">
-          <Button
-            disabled={githubPending}
-            onClick={signInWithGithub}
-            variant="outline"
-            className="w-full h-11 bg-background/50 hover:bg-background/80 border-border/50 cursor-hover transition-all duration-300 hover:scale-[1.02] hover:shadow-lg"
-          >
-            {githubPending ? (
-              <>
-                <Loader className="size-4 animate-spin" />
-                <span>Iniciando Sesión...</span>
-              </>
-            ) : (
-              <>
-                <GithubIcon className="size-4" />
-                Continuar con GitHub
-              </>
-            )}
-          </Button>
-
-          <Button
-            disabled={googlePending}
-            onClick={signInWithGoogle}
-            variant="outline"
-            className="w-full h-11 bg-background/50 hover:bg-background/80 border-border/50 cursor-hover transition-all duration-300 hover:scale-[1.02] hover:shadow-lg"
-          >
-            {googlePending ? (
-              <>
-                <Loader className="size-4 animate-spin" />
-                <span>Iniciando Sesión...</span>
-              </>
-            ) : (
-              <>
-                <Mail className="size-4 mr-2" />
-                Continuar con Google
-              </>
-            )}
-          </Button>
-        </div>
-
-        <div className="relative">
-          <div className="absolute inset-0 flex items-center">
-            <Separator className="w-full" />
-          </div>
-          <div className="relative flex justify-center text-xs uppercase">
-            <span className="bg-background px-3 text-muted-foreground">
-              O continúa con email
-            </span>
-          </div>
-        </div>
-
-        <form className="space-y-4">
-          <div className="space-y-2">
-            <Label htmlFor="email" className="text-sm font-medium">
-              Correo electrónico
-            </Label>
-            <Input
-              id="email"
-              type="email"
-              placeholder="tu@ejemplo.com"
-              className="h-11 bg-background/50 border-border/50 focus:bg-background cursor-hover transition-all duration-300 focus:scale-[1.01] focus:shadow-md"
-              required
-            />
-          </div>
-
-          <div className="space-y-2">
-            <div className="flex items-center justify-between">
-              <Label htmlFor="password" className="text-sm font-medium">
-                Contraseña
-              </Label>
-              <Button
-                variant="link"
-                className="h-auto p-0 text-xs text-muted-foreground hover:text-primary cursor-hover transition-all duration-300"
-              >
-                ¿Olvidaste tu contraseña?
-              </Button>
-            </div>
-            <div className="relative">
-              <Input
-                id="password"
-                type={showPassword ? "text" : "password"}
-                placeholder="Ingresa tu contraseña"
-                className="h-11 bg-background/50 border-border/50 focus:bg-background pr-10 cursor-hover transition-all duration-300 focus:scale-[1.01] focus:shadow-md"
-                required
-              />
-              <Button
-                type="button"
-                variant="ghost"
-                size="sm"
-                onClick={togglePasswordVisibility}
-                className="absolute right-0 top-0 h-full px-3 py-2 hover:bg-transparent cursor-hover transition-all duration-300 hover:scale-110"
-              >
-                {showPassword ? (
-                  <EyeOff className="size-4 text-muted-foreground" />
-                ) : (
-                  <Eye className="size-4 text-muted-foreground" />
-                )}
-              </Button>
-            </div>
-          </div>
-
-          <Button className="w-full h-11 bg-primary hover:bg-primary/90 cursor-hover transition-all duration-300 hover:scale-[1.02] hover:shadow-lg">
-            Iniciar sesión
-          </Button>
-        </form>
-
-        <div className="text-center text-sm text-muted-foreground">
-          ¿No tienes una cuenta?{" "}
-          <Button
-            variant="link"
-            className="h-auto p-0 text-primary hover:text-primary/80 font-medium cursor-hover transition-all duration-300"
-          >
-            Regístrate aquí
-          </Button>
-        </div>
-      </CardContent>
-    </Card>
-  );
 }
+
+export default async function LoginPage() {
+  const session = await getSessionOptimized();
+
+  const redirectUrl = getOptimalRedirectUrl(session);
+  if (redirectUrl) {
+    redirect(redirectUrl);
+  }
+
+  return <LoginForm />; // component to render the login form
+}
+
+export const metadata = {
+  title: "Iniciar Sesión | Open Mind",
+  description:
+    "Accede a tu cuenta de Open Mind. Conecta con tu potencial y descubre nuevas oportunidades.",
+  robots: "index, follow",
+  alternates: {
+    canonical: "/login",
+  },
+  openGraph: {
+    title: "Iniciar Sesión - Open Mind",
+    description: "Accede a tu cuenta y conecta con tu potencial",
+    type: "website",
+  },
+};
