@@ -109,7 +109,11 @@ export function Navbar() {
           {isPending ? (
             <div className="w-8 h-8 rounded-full bg-muted animate-pulse" />
           ) : session ? (
-            <UserDropdown />
+            <UserDropdown
+              name={session.user.name || ""}
+              email={session.user.email || ""}
+              image={session.user.image || ""}
+            />
           ) : (
             <div className="flex items-center space-x-3">
               <Link

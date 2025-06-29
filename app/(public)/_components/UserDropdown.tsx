@@ -22,7 +22,15 @@ import { useState } from "react";
 import { authClient } from "@/lib/auth-client";
 import { toast } from "sonner";
 
-export default function UserDropdown() {
+interface iAppProps {
+  name: string;
+  email: string;
+  image: string;
+} 
+
+
+
+export default function UserDropdown({ name, email, image }: iAppProps) {
   const [isSigningOut, setIsSigningOut] = useState(false);
 
   const handleSignOut = async () => {
@@ -47,8 +55,8 @@ export default function UserDropdown() {
       <DropdownMenuTrigger asChild>
         <Button variant="ghost" className="h-auto p-0 hover:bg-transparent">
           <Avatar>
-            <AvatarImage src="./avatar.jpg" alt="Profile image" />
-            <AvatarFallback>F</AvatarFallback>
+            <AvatarImage src={image} alt={name} />
+            <AvatarFallback>{name[0].toUpperCase()}</AvatarFallback>
           </Avatar>
           <ChevronDownIcon
             size={16}
@@ -60,10 +68,10 @@ export default function UserDropdown() {
       <DropdownMenuContent align="end" className="max-w-64">
         <DropdownMenuLabel className="flex min-w-0 flex-col">
           <span className="text-foreground truncate text-sm font-medium">
-            Keith Kennedy
+            {name}
           </span>
           <span className="text-muted-foreground truncate text-xs font-normal">
-            k.kennedy@originui.com
+            {email}
           </span>
         </DropdownMenuLabel>
         <DropdownMenuSeparator />
