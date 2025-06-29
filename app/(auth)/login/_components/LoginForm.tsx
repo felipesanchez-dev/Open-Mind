@@ -135,7 +135,7 @@ export function LoginForm() {
     <Card className="border-0 shadow-none bg-transparent">
       <CardHeader className="text-center space-y-2 px-0">
         <CardTitle className="text-2xl font-bold">
-          Bienvenido de vuelta
+          Bienvenido a Open Mind
         </CardTitle>
         <CardDescription className="text-muted-foreground">
           Inicia sesión en tu cuenta para continuar

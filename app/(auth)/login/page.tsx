@@ -1,5 +1,5 @@
 import { auth } from "@/lib/auth";
-import { LoginForm } from "./_componets/LoginForm";
+import { LoginForm } from "./_components/LoginForm";
 import { headers } from "next/headers";
 import { redirect } from "next/navigation";
 import { cache } from "react";
@@ -42,7 +42,7 @@ export default async function LoginPage() {
     redirect(redirectUrl);
   }
 
-  return <LoginForm />; // component to render the login form
+  return <LoginForm />;
 }
 
 export const metadata = {
