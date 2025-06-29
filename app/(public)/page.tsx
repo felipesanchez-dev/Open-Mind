@@ -38,7 +38,7 @@ const feature: featureProps[] = [
 ];
 
 export default function Home() {
-  const { data: session, isPending } = authClient.useSession();
+  const { data: session } = authClient.useSession();
   const [mousePosition, setMousePosition] = useState({ x: 0, y: 0 });
   const [isVisible, setIsVisible] = useState(false);
   const [particleCount, setParticleCount] = useState(20);
@@ -65,6 +65,7 @@ export default function Home() {
 
     const handleScroll = () => {
       setIsVisible(window.scrollY > 100);
+      console.log(isVisible);
     };
 
     const handleResize = () => {
@@ -106,16 +107,6 @@ export default function Home() {
 
     return () => clearInterval(interval);
   }, [isAutoPlaying]);
-
-  const nextFeature = () => {
-    setCurrentFeature((prev) => (prev + 1) % feature.length);
-    setIsAutoPlaying(false);
-  };
-
-  const prevFeature = () => {
-    setCurrentFeature((prev) => (prev - 1 + feature.length) % feature.length);
-    setIsAutoPlaying(false);
-  };
 
   const goToFeature = (index: number) => {
     setCurrentFeature(index);

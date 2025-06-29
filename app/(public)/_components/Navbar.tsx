@@ -5,22 +5,22 @@ import { ThemeToggle } from "@/components/ui/themeToggle";
 import { authClient } from "@/lib/auth-client";
 import { Button, buttonVariants } from "@/components/ui/button";
 import { useState, useEffect } from "react";
-import { Menu, X, Sparkles, Zap, Star, Cpu, LogOutIcon } from "lucide-react";
+import { Menu, X, Sparkles, LogOutIcon } from "lucide-react";
 import { cn } from "@/lib/utils";
 import UserDropdown from "./UserDropdown";
 import { toast } from "sonner";
 
 const navigationItems = [
   {
-    name: "Inicio",
+    name: "INICIO",
     href: "/",
   },
   {
-    name: "Cursos",
+    name: "CURSOS",
     href: "/courses",
   },
   {
-    name: "Dashboard",
+    name: "DASHBOARD",
     href: "/dashboard",
   },
 ];
