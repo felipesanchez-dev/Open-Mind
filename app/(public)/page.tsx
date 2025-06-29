@@ -65,7 +65,6 @@ export default function Home() {
 
     const handleScroll = () => {
       setIsVisible(window.scrollY > 100);
-      console.log(isVisible);
     };
 
     const handleResize = () => {
@@ -77,6 +76,7 @@ export default function Home() {
     window.addEventListener("mousemove", handleMouseMove);
     window.addEventListener("scroll", handleScroll);
     window.addEventListener("resize", handleResize);
+    window.addEventListener("load", isVisible ? handleResize : () => {}); // Ensure particles are set on load
 
     return () => {
       window.removeEventListener("mousemove", handleMouseMove);
