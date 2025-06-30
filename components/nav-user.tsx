@@ -1,11 +1,9 @@
 "use client";
 
 import {
-  IconCreditCard,
+  IconDashboard,
   IconDotsVertical,
   IconLogout,
-  IconNotification,
-  IconUserCircle,
 } from "@tabler/icons-react";
 
 import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
@@ -25,10 +23,14 @@ import {
   useSidebar,
 } from "@/components/ui/sidebar";
 import { authClient } from "@/lib/auth-client";
+import Link from "next/link";
+import { HomeIcon, Tv2 } from "lucide-react";
+import { useSignOut } from "@/hooks/use-singout";
 
 export function NavUser() {
   const { isMobile } = useSidebar();
   const { data: session, isPending } = authClient.useSession();
+  const { handleSignOut } = useSignOut();
 
   if (isPending) {
     return null;
@@ -51,7 +53,9 @@ export function NavUser() {
                   }
                   alt={session?.user.name}
                 />
-                <AvatarFallback className="rounded-lg">{session?.user.name[0]}</AvatarFallback>
+                <AvatarFallback className="rounded-lg">
+                  {session?.user.name[0]}
+                </AvatarFallback>
               </Avatar>
               <div className="grid flex-1 text-left text-sm leading-tight">
                 <span className="truncate font-medium">
@@ -74,11 +78,16 @@ export function NavUser() {
               <div className="flex items-center gap-2 px-1 py-1.5 text-left text-sm">
                 <Avatar className="h-8 w-8 rounded-lg">
                   <AvatarImage
-                    src={session?.user.image ?? `https://avatar.vercel.sh/${session?.user.id}`}
+                    src={
+                      session?.user.image ??
+                      `https://avatar.vercel.sh/${session?.user.email}`
+                    }
                     alt={session?.user.name}
                   />
                   <AvatarFallback className="rounded-lg">
-                    {session?.user.name[0]}
+                    {session?.user.name && session.user.name.length > 0
+                      ? session.user.name.charAt(0).toUpperCase()
+                      : session?.user.email.charAt(0).toUpperCase()}
                   </AvatarFallback>
                 </Avatar>
                 <div className="grid flex-1 text-left text-sm leading-tight">
@@ -91,25 +100,37 @@ export function NavUser() {
                 </div>
               </div>
             </DropdownMenuLabel>
+
             <DropdownMenuSeparator />
+
             <DropdownMenuGroup>
-              <DropdownMenuItem>
-                <IconUserCircle />
-                Account
+              <DropdownMenuItem asChild>
+                <Link href="/">
+                  <HomeIcon />
+                  Inicio
+                </Link>
               </DropdownMenuItem>
-              <DropdownMenuItem>
-                <IconCreditCard />
-                Billing
+
+              <DropdownMenuItem asChild>
+                <Link href="/admin">
+                  <IconDashboard />
+                  Dashboard
+                </Link>
               </DropdownMenuItem>
-              <DropdownMenuItem>
-                <IconNotification />
-                Notifications
+
+              <DropdownMenuItem asChild>
+                <Link href="/admin/courses">
+                  <Tv2 />
+                  Cursos
+                </Link>
               </DropdownMenuItem>
             </DropdownMenuGroup>
+
             <DropdownMenuSeparator />
-            <DropdownMenuItem>
+
+            <DropdownMenuItem onClick={handleSignOut}>
               <IconLogout />
-              Log out
+              Cerrar sesión
             </DropdownMenuItem>
           </DropdownMenuContent>
         </DropdownMenu>

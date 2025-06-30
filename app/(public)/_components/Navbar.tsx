@@ -8,7 +8,7 @@ import { useState, useEffect } from "react";
 import { Menu, X, Sparkles, LogOutIcon } from "lucide-react";
 import { cn } from "@/lib/utils";
 import UserDropdown from "./UserDropdown";
-import { toast } from "sonner";
+import { useSignOut } from "@/hooks/use-singout";
 
 const navigationItems = [
   {
@@ -25,6 +25,7 @@ export function Navbar() {
   const { data: session, isPending } = authClient.useSession();
   const [isScrolled, setIsScrolled] = useState(false);
   const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
+  const { handleSignOut } = useSignOut();
 
   useEffect(() => {
     const handleScroll = () => {
@@ -35,25 +36,7 @@ export function Navbar() {
     return () => window.removeEventListener("scroll", handleScroll);
   }, []);
 
-  const [isSigningOut, setIsSigningOut] = useState(false);
 
-  const handleSignOut = async () => {
-    try {
-      setIsSigningOut(true);
-      await authClient.signOut({
-        fetchOptions: {
-          onSuccess: () => {
-            toast.success("Sesión cerrada correctamente");
-            window.location.href = "/";
-          },
-        },
-      });
-    } catch (error) {
-      console.error("Error signing out:", error);
-    } finally {
-      setIsSigningOut(false);
-    }
-  };
 
   return (
     <header
@@ -178,7 +161,7 @@ export function Navbar() {
 
             {isPending ? null : session ? (
               <div className="pt-2">
-                <Button onClick={handleSignOut} disabled={isSigningOut}>
+                <Button onClick={handleSignOut}>
                   <LogOutIcon
                     size={16}
                     className="opacity-60"

@@ -18,38 +18,17 @@ import {
   DropdownMenuTrigger,
 } from "@/components/ui/dropdown-menu";
 import Link from "next/link";
-import { useState } from "react";
-import { authClient } from "@/lib/auth-client";
-import { toast } from "sonner";
+import { useSignOut } from "@/hooks/use-singout";
 
 interface iAppProps {
   name: string;
   email: string;
   image: string;
-} 
-
-
+}
 
 export default function UserDropdown({ name, email, image }: iAppProps) {
-  const [isSigningOut, setIsSigningOut] = useState(false);
+  const { handleSignOut } = useSignOut();
 
-  const handleSignOut = async () => {
-    try {
-      setIsSigningOut(true);
-      await authClient.signOut({
-        fetchOptions: {
-          onSuccess: () => {
-            toast.success("Sesión cerrada correctamente");
-            window.location.href = "/";
-          },
-        },
-      });
-    } catch (error) {
-      console.error("Error signing out:", error);
-    } finally {
-      setIsSigningOut(false);
-    }
-  };
   return (
     <DropdownMenu>
       <DropdownMenuTrigger asChild>
