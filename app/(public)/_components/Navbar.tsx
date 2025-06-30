@@ -19,10 +19,6 @@ const navigationItems = [
     name: "CURSOS",
     href: "/courses",
   },
-  {
-    name: "DASHBOARD",
-    href: "/dashboard",
-  },
 ];
 
 export function Navbar() {
