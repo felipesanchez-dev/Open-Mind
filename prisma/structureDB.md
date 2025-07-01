@@ -7,7 +7,7 @@ erDiagram
     User ||--o{ Session : "tiene"
     User ||--o{ Account : "posee"
     User ||--o{ Course : "crea"
-    
+
     User {
         string id PK
         string name
@@ -17,7 +17,7 @@ erDiagram
         datetime createdAt
         datetime updatedAt
     }
-    
+
     Session {
         string id PK
         datetime expiresAt
@@ -28,7 +28,7 @@ erDiagram
         string userAgent "nullable"
         string userId FK
     }
-    
+
     Account {
         string id PK
         string accountId
@@ -44,7 +44,7 @@ erDiagram
         datetime createdAt
         datetime updatedAt
     }
-    
+
     Course {
         string id PK "cuid()"
         string title
@@ -61,7 +61,7 @@ erDiagram
         datetime createdAt "default: now()"
         datetime updatedAt "@updatedAt"
     }
-    
+
     Verification {
         string id PK
         string identifier
@@ -75,17 +75,19 @@ erDiagram
 ## Tablas Principales
 
 ### 👤 **User** (Usuarios)
+
 - **Propósito**: Almacena información de usuarios registrados
-- **Campos clave**: 
+- **Campos clave**:
   - `id`: Identificador único del usuario
   - `email`: Email único para autenticación
   - `emailVerified`: Estado de verificación del email
-- **Relaciones**: 
+- **Relaciones**:
   - 1:N con Sessions (sesiones de usuario)
   - 1:N con Accounts (cuentas de proveedores)
   - 1:N con Courses (cursos creados)
 
 ### 🔐 **Session** (Sesiones)
+
 - **Propósito**: Maneja las sesiones activas de usuarios
 - **Campos clave**:
   - `token`: Token único de sesión
@@ -94,6 +96,7 @@ erDiagram
 - **Seguridad**: Cascade delete cuando se elimina el usuario
 
 ### 🔗 **Account** (Cuentas de Proveedores)
+
 - **Propósito**: Gestiona autenticación con proveedores externos (Google, GitHub, etc.)
 - **Campos clave**:
   - `providerId`: Identificador del proveedor (google, github, etc.)
@@ -101,6 +104,7 @@ erDiagram
 - **Seguridad**: Cascade delete cuando se elimina el usuario
 
 ### 📚 **Course** (Cursos)
+
 - **Propósito**: Almacena información de cursos creados por usuarios
 - **Campos clave**:
   - `slug`: URL amigable única
@@ -112,22 +116,26 @@ erDiagram
   - `CourseStatus`: BORRADOR, PUBLICADO, ARCHIVADO
 
 ### ✅ **Verification** (Verificaciones)
+
 - **Propósito**: Maneja códigos de verificación (email, reset password, etc.)
 - **Uso**: Tabla independiente para procesos de verificación temporal
 
 ## Índices y Restricciones
 
 ### Claves Únicas (UK)
+
 - `User.email`: Un email por usuario
 - `Session.token`: Token único por sesión
 - `Course.slug`: URL única por curso
 
 ### Claves Foráneas (FK)
+
 - `Session.userId` → `User.id`
 - `Account.userId` → `User.id`
 - `Course.userId` → `User.id`
 
 ### Comportamiento de Eliminación
+
 - **Cascade Delete**: Al eliminar un usuario, se eliminan automáticamente:
   - Todas sus sesiones
   - Todas sus cuentas de proveedores
@@ -136,11 +144,13 @@ erDiagram
 ## Flujo de Datos Típico
 
 1. **Registro/Login**:
+
    ```
    User → Account (OAuth) → Session (token)
    ```
 
 2. **Creación de Curso**:
+
    ```
    User (authenticated) → Course (BORRADOR) → Course (PUBLICADO)
    ```
@@ -153,12 +163,14 @@ erDiagram
 ## Consideraciones de Diseño
 
 ### ✅ Fortalezas
+
 - Separación clara entre autenticación y datos de usuario
 - Soporte para múltiples proveedores OAuth
 - Sistema de estados para cursos
 - Integridad referencial con cascade deletes
 
 ### 🔄 Posibles Mejoras Futuras
+
 - Tabla de categorías separada para normalización
 - Sistema de roles y permisos
 - Tabla de enrollments (inscripciones)
@@ -166,6 +178,7 @@ erDiagram
 - Sistema de tags para cursos
 
 ### 🛡️ Seguridad
+
 - Tokens únicos para sesiones
 - Cascade deletes para limpieza automática
 - Campos nullable apropiados
@@ -173,6 +186,4 @@ erDiagram
 
 ---
 
-**Generado para**: OpenMind Platform  
-**Fecha**: 30 de junio de 2025  
-**Versión**: 1.0
+**Generado para**: OpenMind Platform
