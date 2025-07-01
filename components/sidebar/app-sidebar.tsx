@@ -30,7 +30,6 @@ import {
 import Image from "next/image";
 
 const data = {
-
   navMain: [
     {
       title: "Dashboard",
@@ -58,54 +57,7 @@ const data = {
       icon: IconUsers,
     },
   ],
-  navClouds: [
-    {
-      title: "Capture",
-      icon: IconCamera,
-      isActive: true,
-      url: "#",
-      items: [
-        {
-          title: "Active Proposals",
-          url: "#",
-        },
-        {
-          title: "Archived",
-          url: "#",
-        },
-      ],
-    },
-    {
-      title: "Proposal",
-      icon: IconFileDescription,
-      url: "#",
-      items: [
-        {
-          title: "Active Proposals",
-          url: "#",
-        },
-        {
-          title: "Archived",
-          url: "#",
-        },
-      ],
-    },
-    {
-      title: "Prompts",
-      icon: IconFileAi,
-      url: "#",
-      items: [
-        {
-          title: "Active Proposals",
-          url: "#",
-        },
-        {
-          title: "Archived",
-          url: "#",
-        },
-      ],
-    },
-  ],
+
   navSecondary: [
     {
       title: "Settings",
@@ -141,6 +93,7 @@ export function AppSidebar({ ...props }: React.ComponentProps<typeof Sidebar>) {
                   alt="Logo"
                   width={40}
                   height={40}
+                  style={{ width: "auto", height: "auto" }}
                 />
                 <span className="text-base font-bold">OPEN MIND</span>
               </a>
