@@ -22,6 +22,7 @@ import {
   FormMessage,
 } from "@/components/ui/form";
 import { Input } from "@/components/ui/input";
+import { Textarea } from "@/components/ui/textarea";
 import slugify from "slugify";
 
 export default function CourseCreationPage() {
@@ -57,60 +58,91 @@ export default function CourseCreationPage() {
         >
           <ArrowLeft className="size-5" />
         </Link>
-        <h1 className="text-3xl font-bold">Crear un curso</h1>
+        <h1 className="text-3xl font-bold">Crear nuevo curso</h1>
       </div>
 
-      <Card className="max-w-2xl">
+      <Card className="max-w-4xl mx-auto">
         <CardHeader>
-          <CardTitle className="text-xl">Información básica del curso</CardTitle>
+          <CardTitle className="text-xl">Información del curso</CardTitle>
           <CardDescription>
-            Completa la información básica para crear tu curso
+            Completa los detalles básicos para crear tu curso
           </CardDescription>
         </CardHeader>
         <CardContent>
           <Form {...form}>
-            <form className="space-y-6" onSubmit={form.handleSubmit(onSubmit)}>
-              <FormField
-                control={form.control}
-                name="title"
-                render={({ field }) => (
-                  <FormItem>
-                    <FormLabel>Título del curso</FormLabel>
-                    <FormControl>
-                      <Input placeholder="Introduce el título del curso" {...field} />
-                    </FormControl>
-                    <FormMessage />
-                  </FormItem>
-                )}
-              />
-              
-              <div className="grid grid-cols-1 md:grid-cols-4 gap-4 items-end">
+            <form className="space-y-8" onSubmit={form.handleSubmit(onSubmit)}>
+              <div className="space-y-6">
                 <FormField
                   control={form.control}
-                  name="slug"
+                  name="title"
                   render={({ field }) => (
-                    <FormItem className="md:col-span-3">
-                      <FormLabel>URL del curso</FormLabel>
+                    <FormItem>
+                      <FormLabel>Título del curso</FormLabel>
                       <FormControl>
-                        <Input placeholder="url del curso" {...field} />
+                        <Input
+                          placeholder="Ej: Introducción a React.js"
+                          className="h-11"
+                          {...field}
+                        />
                       </FormControl>
                       <FormMessage />
                     </FormItem>
                   )}
                 />
-                <Button 
-                  type="button" 
-                  variant="outline"
-                  className="h-10 whitespace-nowrap"
-                  onClick={() => {
-                    const titleValue = form.getValues("title");
-                    const slug = slugify(titleValue, { lower: true, strict: true });
-                    form.setValue("slug", slug, { shouldValidate: true });
-                  }}
-                >
-                  <SparkleIcon className="w-4 h-4 mr-2" />
-                  Generar
-                </Button>
+
+                <div className="grid grid-cols-1 lg:grid-cols-5 gap-4 items-end">
+                  <FormField
+                    control={form.control}
+                    name="slug"
+                    render={({ field }) => (
+                      <FormItem className="lg:col-span-4">
+                        <FormLabel>URL del curso</FormLabel>
+                        <FormControl>
+                          <Input
+                            placeholder="introduccion-react-js"
+                            className="h-11 font-mono text-sm"
+                            {...field}
+                          />
+                        </FormControl>
+                        <FormMessage />
+                      </FormItem>
+                    )}
+                  />
+                  <Button
+                    type="button"
+                    variant="outline"
+                    className="h-11 px-4"
+                    onClick={() => {
+                      const titleValue = form.getValues("title");
+                      const slug = slugify(titleValue, {
+                        lower: true,
+                        strict: true,
+                      });
+                      form.setValue("slug", slug, { shouldValidate: true });
+                    }}
+                  >
+                    <SparkleIcon className="w-4 h-4 mr-2" />
+                    Generar
+                  </Button>
+                </div>
+
+                <FormField
+                  control={form.control}
+                  name="smallDescription"
+                  render={({ field }) => (
+                    <FormItem>
+                      <FormLabel>Descripción corta</FormLabel>
+                      <FormControl>
+                        <Textarea
+                          placeholder="Escribe una breve descripción que explique de qué trata tu curso..."
+                          className="min-h-[140px] resize-none"
+                          {...field}
+                        />
+                      </FormControl>
+                      <FormMessage />
+                    </FormItem>
+                  )}
+                />
               </div>
             </form>
           </Form>

@@ -22,7 +22,7 @@ export const courseSchema = z.object({
     .string()
     .min(3, { message: "La descripción tiene que ser mayor a 3 caracteres." })
     .max(200),
-  slug: z.string().min(3, { message: "La Url no es válida." }),
+  slug: z.string().min(3, { message: "La URL no es válida." }),
   status: z.enum(courseStatuses, { message: "Estado no válido." }),
 });
 
