@@ -4,15 +4,14 @@ import { SectionCards } from "@/components/sidebar/section-cards";
 
 import data from "./data.json";
 
-
 export default function AdminIndex() {
   return (
     <>
-    <SectionCards />
-              <div className="px-4 lg:px-6">
-                <ChartAreaInteractive />
-              </div>
-              <DataTable data={data} />
+      <SectionCards />
+      <div className="px-4 lg:px-6">
+        <ChartAreaInteractive />
+      </div>
+      <DataTable data={data} />
     </>
-  )
+  );
 }
