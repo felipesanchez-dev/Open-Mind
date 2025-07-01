@@ -84,6 +84,20 @@ export default function UserDropdown({ name, email, image }: iAppProps) {
               <span>Dashboard</span>
             </Link>
           </DropdownMenuItem>
+
+          {/* Admin cpanel */}
+          <DropdownMenuItem asChild>
+            <Link href="/admin">
+              <LayoutDashboardIcon
+                size={16}
+                className="opacity-60"
+                aria-hidden="true"
+              />
+              <span>Admin</span>
+            </Link>
+          </DropdownMenuItem>
+          {/* ------------------- */}
+          
         </DropdownMenuGroup>
 
         <DropdownMenuSeparator />
