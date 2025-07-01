@@ -92,7 +92,7 @@ export default function CourseCreationPage() {
                     <FormItem className="md:col-span-3">
                       <FormLabel>URL del curso</FormLabel>
                       <FormControl>
-                        <Input placeholder="url-del-curso" {...field} />
+                        <Input placeholder="url del curso" {...field} />
                       </FormControl>
                       <FormMessage />
                     </FormItem>
