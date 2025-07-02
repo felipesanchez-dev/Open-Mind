@@ -15,7 +15,7 @@ export function RichTextEditor() {
     ],
     editorProps: {
         attributes: {
-            class: "min-h-[300px] p-4"
+            class: "min-h-[300px] p-4 focus:outline-none"
         }
     }
   });

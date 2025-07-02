@@ -34,7 +34,7 @@ export function MenuBar({ editor }: iAppProps) {
   }
 
   return (
-    <div className="border border-input rounded-t-lg p-2 bg-card flex flex-wrap gap-1 items-center">
+    <div className="border border-input border-t-0 border-x-0 rounded-lg p-2 bg-card flex flex-wrap gap-1 items-center">
       <TooltipProvider>
         <div className="flex flex-wrap gap-1">
           <Tooltip>
@@ -107,7 +107,7 @@ export function MenuBar({ editor }: iAppProps) {
                 <Heading1Icon />
               </Toggle>
             </TooltipTrigger>
-            <TooltipContent>Título</TooltipContent>
+            <TooltipContent>Título (H1)</TooltipContent>
           </Tooltip>
 
           <Tooltip>
@@ -126,7 +126,7 @@ export function MenuBar({ editor }: iAppProps) {
                 <Heading2Icon />
               </Toggle>
             </TooltipTrigger>
-            <TooltipContent>Subtítulo</TooltipContent>
+            <TooltipContent>Subtítulo (H2)</TooltipContent>
           </Tooltip>
 
           <Tooltip>
@@ -145,7 +145,7 @@ export function MenuBar({ editor }: iAppProps) {
                 <Heading3Icon />
               </Toggle>
             </TooltipTrigger>
-            <TooltipContent>Subtítulo 2</TooltipContent>
+            <TooltipContent>Subtítulo 2 (H3)</TooltipContent>
           </Tooltip>
 
           <Tooltip>
