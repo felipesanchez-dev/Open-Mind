@@ -37,6 +37,7 @@ import {
   SelectValue,
 } from "@/components/ui/select";
 import slugify from "slugify";
+import { RichTextEditor } from "@/components/rich-text-editor/Editor";
 
 export default function CourseCreationPage() {
   const form = useForm<courseSchemaType>({
@@ -326,11 +327,12 @@ export default function CourseCreationPage() {
                   <FormItem>
                     <FormLabel>Descripción completa</FormLabel>
                     <FormControl>
-                      <Textarea
+                     <RichTextEditor />
+                     {/* <Textarea
                         placeholder="Escribe una descripción detallada del contenido y objetivos del curso..."
                         className="min-h-[120px] resize-none"
                         {...field}
-                      />
+                      /> */}
                     </FormControl>
                     <FormMessage />
                   </FormItem>
