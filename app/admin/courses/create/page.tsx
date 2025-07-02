@@ -8,7 +8,13 @@ import {
   CardHeader,
   CardTitle,
 } from "@/components/ui/card";
-import { courseSchema, courseSchemaType } from "@/lib/zodShemas";
+import {
+  courseCategories,
+  courseSchema,
+  courseSchemaType,
+  courseLevels,
+  courseStatuses,
+} from "@/lib/zodShemas";
 import { ArrowLeft, SparkleIcon } from "lucide-react";
 import Link from "next/link";
 import { useForm } from "react-hook-form";
@@ -23,6 +29,13 @@ import {
 } from "@/components/ui/form";
 import { Input } from "@/components/ui/input";
 import { Textarea } from "@/components/ui/textarea";
+import {
+  Select,
+  SelectContent,
+  SelectItem,
+  SelectTrigger,
+  SelectValue,
+} from "@/components/ui/select";
 import slugify from "slugify";
 
 export default function CourseCreationPage() {
@@ -35,7 +48,7 @@ export default function CourseCreationPage() {
       price: 0,
       duration: 0,
       level: "PRINCIPIANTE",
-      category: "",
+      category: "Programación",
       status: "BORRADOR",
       slug: "",
       smallDescription: "",
@@ -143,6 +156,191 @@ export default function CourseCreationPage() {
                     </FormItem>
                   )}
                 />
+              </div>
+
+              <FormField
+                control={form.control}
+                name="description"
+                render={({ field }) => (
+                  <FormItem>
+                    <FormLabel>Descripción completa</FormLabel>
+                    <FormControl>
+                      <Textarea
+                        placeholder="Escribe una descripción detallada del contenido y objetivos del curso..."
+                        className="min-h-[180px] resize-none"
+                        {...field}
+                      />
+                    </FormControl>
+                    <FormMessage />
+                  </FormItem>
+                )}
+              />
+
+              <FormField
+                control={form.control}
+                name="fileKey"
+                render={({ field }) => (
+                  <FormItem>
+                    <FormLabel>URL de la imagen del curso</FormLabel>
+                    <FormControl>
+                      <Input
+                        placeholder="Ej: cursos/introduccion-react.jpg"
+                        className="h-11"
+                        {...field}
+                      />
+                    </FormControl>
+                    <FormMessage />
+                  </FormItem>
+                )}
+              />
+
+              <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+                <FormField
+                  control={form.control}
+                  name="category"
+                  render={({ field }) => (
+                    <FormItem>
+                      <FormLabel>Categoría del curso</FormLabel>
+                      <Select
+                        onValueChange={field.onChange}
+                        defaultValue={field.value}
+                      >
+                        <FormControl>
+                          <SelectTrigger className="h-11">
+                            <SelectValue placeholder="Selecciona una categoría" />
+                          </SelectTrigger>
+                        </FormControl>
+                        <SelectContent>
+                          {courseCategories.map((category) => (
+                            <SelectItem key={category} value={category}>
+                              {category}
+                            </SelectItem>
+                          ))}
+                        </SelectContent>
+                      </Select>
+                      <FormMessage />
+                    </FormItem>
+                  )}
+                />
+
+                <FormField
+                  control={form.control}
+                  name="level"
+                  render={({ field }) => (
+                    <FormItem>
+                      <FormLabel>Nivel del curso</FormLabel>
+                      <Select
+                        onValueChange={field.onChange}
+                        defaultValue={field.value}
+                      >
+                        <FormControl>
+                          <SelectTrigger className="h-11">
+                            <SelectValue placeholder="Selecciona el nivel" />
+                          </SelectTrigger>
+                        </FormControl>
+                        <SelectContent>
+                          {courseLevels.map((level) => (
+                            <SelectItem key={level} value={level}>
+                              {level === "PRINCIPIANTE"
+                                ? "Principiante"
+                                : level === "INTERMEDIO"
+                                  ? "Intermedio"
+                                  : "Avanzado"}
+                            </SelectItem>
+                          ))}
+                        </SelectContent>
+                      </Select>
+                      <FormMessage />
+                    </FormItem>
+                  )}
+                />
+              </div>
+
+              <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+                <FormField
+                  control={form.control}
+                  name="price"
+                  render={({ field }) => (
+                    <FormItem>
+                      <FormLabel>Precio (en COP)</FormLabel>
+                      <FormControl>
+                        <Input
+                          type="number"
+                          placeholder="1000"
+                          className="h-11"
+                          {...field}
+                          onChange={(e) =>
+                            field.onChange(parseInt(e.target.value) || 0)
+                          }
+                        />
+                      </FormControl>
+                      <FormMessage />
+                    </FormItem>
+                  )}
+                />
+
+                <FormField
+                  control={form.control}
+                  name="duration"
+                  render={({ field }) => (
+                    <FormItem>
+                      <FormLabel>Duración (en horas)</FormLabel>
+                      <FormControl>
+                        <Input
+                          type="number"
+                          placeholder="180"
+                          className="h-11"
+                          {...field}
+                          onChange={(e) =>
+                            field.onChange(parseInt(e.target.value) || 0)
+                          }
+                        />
+                      </FormControl>
+                      <FormMessage />
+                    </FormItem>
+                  )}
+                />
+              </div>
+
+              
+              <FormField
+                  control={form.control}
+                  name="status"
+                  render={({ field }) => (
+                    <FormItem>
+                      <FormLabel>Estado del curso</FormLabel>
+                      <Select
+                        onValueChange={field.onChange}
+                        defaultValue={field.value}
+                      >
+                        <FormControl>
+                          <SelectTrigger className="h-11">
+                            <SelectValue placeholder="Selecciona el nivel" />
+                          </SelectTrigger>
+                        </FormControl>
+                        <SelectContent>
+                          {courseStatuses.map((status) => (
+                            <SelectItem key={status} value={status}>
+                              {status === "BORRADOR"
+                                ? "Borrador"
+                                : status === "PUBLICADO"
+                                  ? "Publicado"
+                                  : "Archivado"}
+                            </SelectItem>
+                          ))}
+                        </SelectContent>
+                      </Select>
+                      <FormMessage />
+                    </FormItem>
+                  )}
+                />
+                <div className="flex justify-end space-x-4 pt-6 border-t">
+                <Button type="button" variant="outline">
+                  Cancelar
+                </Button>
+                <Button type="submit">
+                  Crear curso
+                </Button>
               </div>
             </form>
           </Form>
