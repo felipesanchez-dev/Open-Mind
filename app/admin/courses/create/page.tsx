@@ -192,9 +192,13 @@ export default function CourseCreationPage() {
                               placeholder="1000"
                               className="h-11"
                               {...field}
-                              onChange={(e) =>
-                                field.onChange(parseInt(e.target.value) || 0)
-                              }
+                              value={field.value === 0 ? "" : field.value}
+                              onChange={(e) => {
+                                const value = e.target.value;
+                                field.onChange(
+                                  value === "" ? 0 : parseInt(value) || 0
+                                );
+                              }}
                             />
                           </FormControl>
                           <FormMessage />
@@ -214,9 +218,13 @@ export default function CourseCreationPage() {
                               placeholder="3"
                               className="h-11"
                               {...field}
-                              onChange={(e) =>
-                                field.onChange(parseInt(e.target.value) || 0)
-                              }
+                              value={field.value === 0 ? "" : field.value}
+                              onChange={(e) => {
+                                const value = e.target.value;
+                                field.onChange(
+                                  value === "" ? 0 : parseInt(value) || 0
+                                );
+                              }}
                             />
                           </FormControl>
                           <FormMessage />
@@ -327,8 +335,8 @@ export default function CourseCreationPage() {
                   <FormItem>
                     <FormLabel>Descripción completa</FormLabel>
                     <FormControl>
-                     <RichTextEditor />
-                     {/* <Textarea
+                      <RichTextEditor />
+                      {/* <Textarea
                         placeholder="Escribe una descripción detallada del contenido y objetivos del curso..."
                         className="min-h-[120px] resize-none"
                         {...field}
