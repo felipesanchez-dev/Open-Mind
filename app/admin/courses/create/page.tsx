@@ -336,11 +336,6 @@ export default function CourseCreationPage() {
                     <FormLabel>Descripción completa</FormLabel>
                     <FormControl>
                       <RichTextEditor field={field} />
-                      {/* <Textarea
-                        placeholder="Escribe una descripción detallada del contenido y objetivos del curso..."
-                        className="min-h-[120px] resize-none"
-                        {...field}
-                      /> */}
                     </FormControl>
                     <FormMessage />
                   </FormItem>
