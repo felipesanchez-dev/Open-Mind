@@ -25,7 +25,7 @@ export function RichTextEditor({ field }: { field: any }) {
     onUpdate: ({ editor }) => {
       field.onChange(JSON.stringify(editor.getJSON()));
     },
-    content: field.value ? JSON.parse(field.value) : "<p>Holiwis</p>",
+    content: field.value ? JSON.parse(field.value) : "<p></p>",
   });
 
   return (

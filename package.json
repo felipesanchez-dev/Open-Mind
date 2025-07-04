@@ -51,6 +51,7 @@
     "prettier": "^3.6.2",
     "react": "^19.0.0",
     "react-dom": "^19.0.0",
+    "react-dropzone": "^14.3.8",
     "react-hook-form": "^7.59.0",
     "recharts": "^3.0.2",
     "resend": "^4.6.0",

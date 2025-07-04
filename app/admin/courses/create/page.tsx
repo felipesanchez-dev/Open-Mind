@@ -38,6 +38,7 @@ import {
 } from "@/components/ui/select";
 import slugify from "slugify";
 import { RichTextEditor } from "@/components/rich-text-editor/Editor";
+import { Uploader } from "@/components/file-uploader/Uploader";
 
 export default function CourseCreationPage() {
   const form = useForm<courseSchemaType>({
@@ -168,11 +169,13 @@ export default function CourseCreationPage() {
                       <FormItem>
                         <FormLabel>URL de la imagen</FormLabel>
                         <FormControl>
-                          <Input
+                          <Uploader />
+                          {/* <Input
                             placeholder="cursos/introduccion-react.jpg"
                             className="h-11"
                             {...field}
-                          />
+                          /> */}
+
                         </FormControl>
                         <FormMessage />
                       </FormItem>
