@@ -170,12 +170,6 @@ export default function CourseCreationPage() {
                         <FormLabel>Imagen del curso</FormLabel>
                         <FormControl>
                           <Uploader />
-                          {/* <Input
-                            placeholder="cursos/introduccion-react.jpg"
-                            className="h-11"
-                            {...field}
-                          /> */}
-
                         </FormControl>
                         <FormMessage />
                       </FormItem>
