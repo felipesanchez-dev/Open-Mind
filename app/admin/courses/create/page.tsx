@@ -167,7 +167,7 @@ export default function CourseCreationPage() {
                     name="fileKey"
                     render={({ field }) => (
                       <FormItem>
-                        <FormLabel>URL de la imagen</FormLabel>
+                        <FormLabel>Imagen del curso</FormLabel>
                         <FormControl>
                           <Uploader />
                           {/* <Input
