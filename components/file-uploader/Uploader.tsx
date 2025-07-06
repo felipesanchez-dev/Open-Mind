@@ -37,6 +37,33 @@ export function Uploader({ value, onChange, onUploadComplete, className }: Uploa
     fileType: "image",
   });
 
+  useEffect(() => {
+    
+    if (value && value !== fileState.key) {
+      console.log("📥 Cargando archivo existente desde S3:", value);
+      const publicUrl = `https://${process.env.NEXT_PUBLIC_S3_BUCKET_NAME_IMAGES}.s3.amazonaws.com/${value}`;
+      
+      setFileState(prev => ({
+        ...prev,
+        key: value,
+        objectUrl: publicUrl,
+        uploading: false,
+        error: false,
+        progress: 100,
+      }));
+    } else if (!value && fileState.key) {
+      setFileState(prev => ({
+        ...prev,
+        key: undefined,
+        objectUrl: undefined,
+        file: null,
+        uploading: false,
+        error: false,
+        progress: 0,
+      }));
+    }
+  }, [value, fileState.key]);
+
   async function deleteFile(key: string) {
     try {
       setFileState((prev) => ({ ...prev, isDeleting: true }));
@@ -61,8 +88,9 @@ export function Uploader({ value, onChange, onUploadComplete, className }: Uploa
 
   async function uploadFile(file: File) {
     
-    if (fileState.key) {
-      await deleteFile(fileState.key);
+    if (fileState.key || value) {
+      const keyToDelete = fileState.key || value;
+      await deleteFile(keyToDelete!);
     }
 
     setFileState((prev) => ({
@@ -163,7 +191,7 @@ export function Uploader({ value, onChange, onUploadComplete, className }: Uploa
     if (acceptedFiles.length > 0) {
       const file = acceptedFiles[0];
 
-      if (fileState.objectUrl) {
+      if (fileState.objectUrl && fileState.objectUrl.startsWith('blob:')) {
         URL.revokeObjectURL(fileState.objectUrl);
       }
 
@@ -176,12 +204,12 @@ export function Uploader({ value, onChange, onUploadComplete, className }: Uploa
         id: uuidv4(),
         isDeleting: false,
         fileType: "image",
-        key: undefined, 
+        key: undefined,
       });
 
       uploadFile(file);
     }
-  }, [fileState.objectUrl, fileState.key]);
+  }, [fileState.objectUrl, fileState.key, value]);
 
   function rejectedFiles(fileRejection: FileRejection[]) {
     if (fileRejection.length) {
@@ -206,11 +234,13 @@ export function Uploader({ value, onChange, onUploadComplete, className }: Uploa
   }
 
   const handleDeleteFile = async () => {
-    if (fileState.key) {
-      await deleteFile(fileState.key);
+    const keyToDelete = fileState.key || value;
+    
+    if (keyToDelete) {
+      await deleteFile(keyToDelete);
     }
     
-    if (fileState.objectUrl) {
+    if (fileState.objectUrl && fileState.objectUrl.startsWith('blob:')) {
       URL.revokeObjectURL(fileState.objectUrl);
     }
     
@@ -249,7 +279,7 @@ export function Uploader({ value, onChange, onUploadComplete, className }: Uploa
       return <RenderErrorState />;
     }
 
-    if (fileState.objectUrl && fileState.key) {
+    if (fileState.objectUrl && (fileState.key || value)) {
       return (
         <RenderUploadedState 
           previewUrl={fileState.objectUrl} 
@@ -275,7 +305,7 @@ export function Uploader({ value, onChange, onUploadComplete, className }: Uploa
 
   useEffect(() => {
     return () => {
-      if (fileState.objectUrl) {
+      if (fileState.objectUrl && fileState.objectUrl.startsWith('blob:')) {
         URL.revokeObjectURL(fileState.objectUrl);
       }
     };
