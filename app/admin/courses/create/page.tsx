@@ -173,7 +173,6 @@ export default function CourseCreationPage() {
                             value={field.value}
                             onChange={field.onChange}
                             onUploadComplete={(key, url) => {
-                              console.log("Archivo subido:", { key, url });
                               field.onChange(key);
                             }}
                           />
