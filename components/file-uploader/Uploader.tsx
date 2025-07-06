@@ -1,5 +1,5 @@
 "use client";
-import { useCallback, useState } from "react";
+import { useCallback, useState, useEffect } from "react";
 import { FileRejection, useDropzone } from "react-dropzone";
 import { Card, CardContent } from "../ui/card";
 import { cn } from "@/lib/utils";
@@ -19,7 +19,14 @@ interface UploaderState {
   fileType: "image" | "video";
 }
 
-export function Uploader() {
+interface UploaderProps {
+  value?: string;
+  onChange?: (key: string) => void;
+  onUploadComplete?: (key: string, url: string) => void;
+  className?: string;
+}
+
+export function Uploader({ value, onChange, onUploadComplete, className }: UploaderProps) {
   const [fileState, setFileState] = useState<UploaderState>({
     error: false,
     file: null,
@@ -30,11 +37,39 @@ export function Uploader() {
     fileType: "image",
   });
 
+  async function deleteFile(key: string) {
+    try {
+      setFileState((prev) => ({ ...prev, isDeleting: true }));
+      
+      const response = await fetch(`/api/s3/delete`, {
+        method: "DELETE",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify({ key }),
+      });
+
+      if (!response.ok) {
+        console.warn("No se pudo eliminar el archivo anterior de S3");
+      }
+    } catch (error) {
+      console.warn("Error eliminando archivo:", error);
+    } finally {
+      setFileState((prev) => ({ ...prev, isDeleting: false }));
+    }
+  }
+
   async function uploadFile(file: File) {
+    
+    if (fileState.key) {
+      await deleteFile(fileState.key);
+    }
+
     setFileState((prev) => ({
       ...prev,
       uploading: true,
       progress: 0,
+      error: false,
     }));
 
     try {
@@ -86,15 +121,28 @@ export function Uploader() {
               uploading: false,
               key: key,
             }));
+            
+            if (onChange) {
+              onChange(key);
+            }
+            
+            if (onUploadComplete) {
+              onUploadComplete(key, `https://${process.env.NEXT_PUBLIC_S3_BUCKET_NAME_IMAGES}.s3.amazonaws.com/${key}`);
+            }
+            
             toast.success("Archivo subido correctamente");
             resolve();
           } else {
             reject(new Error("Upload failed"));
           }
+        };
 
-          xhr.onerror = () => {
-            reject(new Error("Network error"));
-          };
+        xhr.onerror = () => {
+          reject(new Error("Network error"));
+        };
+
+        xhr.onabort = () => {
+          reject(new Error("Upload cancelled"));
         };
         xhr.open("PUT", presignedUrl);
         xhr.setRequestHeader("Content-Type", file.type);
@@ -115,6 +163,10 @@ export function Uploader() {
     if (acceptedFiles.length > 0) {
       const file = acceptedFiles[0];
 
+      if (fileState.objectUrl) {
+        URL.revokeObjectURL(fileState.objectUrl);
+      }
+
       setFileState({
         file: file,
         uploading: false,
@@ -124,11 +176,12 @@ export function Uploader() {
         id: uuidv4(),
         isDeleting: false,
         fileType: "image",
+        key: undefined, 
       });
 
       uploadFile(file);
     }
-  }, []);
+  }, [fileState.objectUrl, fileState.key]);
 
   function rejectedFiles(fileRejection: FileRejection[]) {
     if (fileRejection.length) {
@@ -152,21 +205,61 @@ export function Uploader() {
     }
   }
 
+  const handleDeleteFile = async () => {
+    if (fileState.key) {
+      await deleteFile(fileState.key);
+    }
+    
+    if (fileState.objectUrl) {
+      URL.revokeObjectURL(fileState.objectUrl);
+    }
+    
+    setFileState({
+      error: false,
+      file: null,
+      id: null,
+      uploading: false,
+      progress: 0,
+      isDeleting: false,
+      fileType: "image",
+      objectUrl: undefined,
+      key: undefined,
+    });
+    
+    if (onChange) {
+      onChange("");
+    }
+    
+    toast.success("Archivo eliminado");
+  };
+
   function renderContent() {
     if (fileState.uploading) {
-      return <h1>Subiendo archivo...</h1>;
+      return (
+        <div className="text-center">
+          <h3 className="font-semibold">Subiendo archivo...</h3>
+          <p className="text-sm text-muted-foreground">
+            {fileState.progress}% completado
+          </p>
+        </div>
+      );
     }
+    
     if (fileState.error) {
       return <RenderErrorState />;
     }
 
-    if (fileState.objectUrl) {
+    if (fileState.objectUrl && fileState.key) {
       return (
-        <RenderUploadedState previewUrl={fileState.objectUrl} />
-      )
+        <RenderUploadedState 
+          previewUrl={fileState.objectUrl} 
+          onDelete={handleDeleteFile}
+          isDeleting={fileState.isDeleting}
+        />
+      );
     }
 
-    return <RenderEmptyState isDragging={false} />;
+    return <RenderEmptyState isDragging={isDragActive} />;
   }
 
   const { getRootProps, getInputProps, isDragActive } = useDropzone({
@@ -179,6 +272,14 @@ export function Uploader() {
     maxSize: 10 * 1024 * 1024,
     onDropRejected: rejectedFiles,
   });
+
+  useEffect(() => {
+    return () => {
+      if (fileState.objectUrl) {
+        URL.revokeObjectURL(fileState.objectUrl);
+      }
+    };
+  }, [fileState.objectUrl]);
 
   return (
     <Card

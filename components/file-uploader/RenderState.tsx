@@ -44,22 +44,41 @@ export function RenderErrorState() {
   );
 }
 
-export function RenderUploadedState({ previewUrl }: { previewUrl: string }) {
+export function RenderUploadedState({ 
+  previewUrl, 
+  onDelete, 
+  isDeleting 
+}: { 
+  previewUrl: string; 
+  onDelete?: () => void; 
+  isDeleting?: boolean; 
+}) {
   return (
-    <div>
+    <div className="relative w-full h-full">
       <Image
         src={previewUrl}
         alt="Uploaded Image"
         fill
         className="object-contain p-2"
       />
-      <Button
-        variant="outline"
-        size="icon"
-        className={cn("absolute top-2 right-4")}
-      >
-        <XIcon className="size-4 text-muted-foreground" />
-      </Button>
+      {onDelete && (
+        <Button
+          variant="destructive"
+          size="icon"
+          className="absolute top-2 right-2 h-8 w-8"
+          onClick={(e) => {
+            e.stopPropagation();
+            onDelete();
+          }}
+          disabled={isDeleting}
+        >
+          {isDeleting ? (
+            <div className="h-4 w-4 animate-spin rounded-full border-2 border-background border-t-transparent" />
+          ) : (
+            <XIcon className="h-4 w-4" />
+          )}
+        </Button>
+      )}
     </div>
   );
 }
