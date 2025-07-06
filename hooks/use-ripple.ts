@@ -1,4 +1,3 @@
-// Hook personalizado para efectos de ripple
 import { useCallback } from 'react';
 
 export const useRipple = () => {
@@ -21,7 +20,6 @@ export const useRipple = () => {
 
     button.appendChild(circle);
 
-    // Remover el elemento después de la animación
     setTimeout(() => {
       circle.remove();
     }, 600);
