@@ -15,7 +15,7 @@ import {
   courseLevels,
   courseStatuses,
 } from "@/lib/zodShemas";
-import { ArrowLeft, SparkleIcon } from "lucide-react";
+import { ArrowLeft, Loader2, PlusIcon, SparkleIcon } from "lucide-react";
 import Link from "next/link";
 import { useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
@@ -39,8 +39,15 @@ import {
 import slugify from "slugify";
 import { RichTextEditor } from "@/components/rich-text-editor/Editor";
 import { Uploader } from "@/components/file-uploader/Uploader";
+import { useTransition } from "react";
+import { tryCatch } from "@/hooks/try-catch";
+import { CreateCourse } from "./actions";
+import { toast } from "sonner";
+import { useRouter } from "next/navigation";
 
 export default function CourseCreationPage() {
+  const [isPending, startTransition] = useTransition();
+  const router = useRouter();
   const form = useForm<courseSchemaType>({
     resolver: zodResolver(courseSchema),
     defaultValues: {
@@ -58,7 +65,22 @@ export default function CourseCreationPage() {
   });
 
   function onSubmit(values: courseSchemaType) {
-    console.log(values);
+    startTransition(async () => {
+      const { data: result, error } = await tryCatch(CreateCourse(values));
+
+      if (error) {
+        toast.error("Error al crear el curso. Por favor, inténtalo de nuevo.");
+        return;
+      }
+
+      if (result.status === "success") {
+        toast.success(result.message);
+        form.reset();
+        router.push("/admin/courses");
+      } else if (result.status === "error") {
+        toast.error(result.message);
+      }
+    });
   }
 
   return (
@@ -346,15 +368,18 @@ export default function CourseCreationPage() {
               />
 
               <div className="flex justify-end gap-3 pt-4 border-t">
-                <Button
-                  type="button"
-                  variant="outline"
-                  className="min-w-[100px]"
-                >
-                  Cancelar
-                </Button>
-                <Button type="submit" className="min-w-[100px]">
-                  Crear curso
+                <Button type="submit" className="min-w-[100px] cursor-pointer" disabled={isPending}>
+                 {
+                  isPending ? (
+                    <>
+                    <Loader2 className="animate-spin" />
+                    </>
+                  ) : (
+                    <>
+                    Crear curso
+                    </>
+                  )
+                 }
                 </Button>
               </div>
             </form>
