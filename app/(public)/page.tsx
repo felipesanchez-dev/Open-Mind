@@ -6,7 +6,6 @@ import {
   ArrowRight,
   Play,
   BookOpen,
-  Sparkles,
   Star,
   Quote,
   Users,
@@ -65,8 +64,6 @@ export default function Home() {
       animationDuration: string;
     }>
   >([]);
-  const [currentFeature, setCurrentFeature] = useState(0);
-  const [isAutoPlaying, setIsAutoPlaying] = useState(true);
   const createRipple = useRipple();
 
   useEffect(() => {
@@ -110,21 +107,6 @@ export default function Home() {
       setParticles(newParticles);
     }
   }, [isClient, particleCount]);
-
-  useEffect(() => {
-    if (!isAutoPlaying) return;
-
-    const interval = setInterval(() => {
-      setCurrentFeature((prev) => (prev + 1) % feature.length);
-    }, 4000);
-
-    return () => clearInterval(interval);
-  }, [isAutoPlaying]);
-
-  const goToFeature = (index: number) => {
-    setCurrentFeature(index);
-    setIsAutoPlaying(false);
-  };
 
   return (
     <>
@@ -383,7 +365,6 @@ export default function Home() {
           </div>
         </div>
       </section>
-
 
       {/* Sección de Creditos */}
       <section className="py-20 px-4 sm:px-6 lg:px-8 bg-muted/20 relative overflow-hidden">
