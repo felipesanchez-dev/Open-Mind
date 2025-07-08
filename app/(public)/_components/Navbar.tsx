@@ -41,9 +41,9 @@ export function Navbar() {
   return (
     <header
       className={cn(
-        "fixed top-0 z-50 w-full transition-all duration-300 ease-in-out",
+        "fixed top-0 z-50 w-full transition-all duration-500 ease-in-out",
         isScrolled
-          ? "bg-background/80 backdrop-blur-xl border-b border-border/50 shadow-lg shadow-primary/5"
+          ? "bg-background/90 backdrop-blur-xl border-b border-border/50 shadow-xl shadow-primary/10"
           : "bg-transparent backdrop-blur-sm"
       )}
     >
@@ -54,16 +54,17 @@ export function Navbar() {
         >
           <div className="relative">
             <div className="absolute inset-0 bg-gradient-to-r from-primary to-secondary rounded-lg opacity-20 blur-sm group-hover:opacity-40 transition-opacity duration-300" />
+            <div className="absolute inset-0 bg-gradient-to-r from-primary/30 to-secondary/30 rounded-lg animate-pulse opacity-0 group-hover:opacity-100 transition-opacity duration-300" />
             <Image
               src="/assets/logo.webp"
               alt="Logo"
-              className="relative size-10 rounded-lg"
+              className="relative size-10 rounded-lg transition-transform duration-300 group-hover:rotate-12"
               width={40}
               height={40}
             />
           </div>
           <div className="flex items-center space-x-1">
-            <span className="font-black text-lg t from-primary to-secondary bg-clip-text">
+            <span className="font-black text-lg bg-gradient-to-r from-primary to-secondary bg-clip-text text-transparent">
               OPEN MIND
             </span>
             <Sparkles className="w-4 h-4 text-primary group-hover:animate-spin transition-transform duration-300" />
@@ -75,10 +76,11 @@ export function Navbar() {
             <Link
               key={item.name}
               href={item.href}
-              className="relative text-xl font-medium text-muted-foreground hover:text-foreground transition-all duration-300 group"
+              className="relative text-sm font-semibold text-muted-foreground hover:text-foreground transition-all duration-300 group px-3 py-2 rounded-lg hover:bg-primary/5"
             >
               <span className="relative z-10">{item.name}</span>
-              <div className="absolute -bottom-1 left-0 w-0 h-0.5 bg-gradient-to-r from-primary to-secondary group-hover:w-full transition-all duration-300" />
+              <div className="absolute -bottom-1 left-1/2 transform -translate-x-1/2 w-0 h-0.5 bg-gradient-to-r from-primary to-secondary group-hover:w-full transition-all duration-300" />
+              <div className="absolute inset-0 bg-gradient-to-r from-primary/10 to-secondary/10 rounded-lg opacity-0 group-hover:opacity-100 transition-opacity duration-300" />
             </Link>
           ))}
         </nav>
@@ -86,7 +88,7 @@ export function Navbar() {
         <div className="hidden md:flex md:items-center md:space-x-4">
           <ThemeToggle />
           {isPending ? (
-            <div className="w-8 h-8 rounded-full bg-muted animate-pulse" />
+            <div className="w-8 h-8 rounded-full bg-gradient-to-r from-primary/20 to-secondary/20 animate-pulse" />
           ) : session ? (
             <UserDropdown
               name={session.user.name || ""}
@@ -99,7 +101,7 @@ export function Navbar() {
                 href="/login"
                 className={cn(
                   buttonVariants({ variant: "ghost", size: "sm" }),
-                  "relative overflow-hidden group transition-all duration-300 hover:scale-105"
+                  "relative overflow-hidden group transition-all duration-300 hover:scale-105 hover:bg-primary/10"
                 )}
               >
                 <span className="relative z-10">Iniciar Sesión</span>
@@ -109,34 +111,35 @@ export function Navbar() {
                 href="/donate"
                 className={cn(
                   buttonVariants({ variant: "outline", size: "sm" }),
-                  "relative overflow-hidden"
+                  "relative overflow-hidden group transition-all duration-300 hover:scale-105 border-primary/30 hover:border-primary/50"
                 )}
               >
                 <span className="relative z-10 flex items-center space-x-1">
                   <span>Donar</span>
-                  <Sparkles className="w-3 h-3" />
+                  <Sparkles className="w-3 h-3 group-hover:animate-pulse" />
                 </span>
+                <div className="absolute inset-0 bg-gradient-to-r from-primary/5 to-secondary/5 opacity-0 group-hover:opacity-100 transition-opacity duration-300" />
               </Link>
             </div>
           )}
         </div>
 
         <button
-          className="md:hidden p-2 rounded-lg hover:bg-muted transition-colors duration-200"
+          className="md:hidden p-2 rounded-lg hover:bg-muted transition-all duration-200 hover:scale-105"
           onClick={() => setIsMobileMenuOpen(!isMobileMenuOpen)}
           aria-label="Toggle mobile menu"
         >
           {isMobileMenuOpen ? (
-            <X className="w-5 h-5" />
+            <X className="w-5 h-5 transition-transform duration-300 rotate-90" />
           ) : (
-            <Menu className="w-5 h-5" />
+            <Menu className="w-5 h-5 transition-transform duration-300" />
           )}
         </button>
       </div>
 
       <div
         className={cn(
-          "md:hidden absolute top-full left-0 w-full bg-background/95 backdrop-blur-xl border-b border-border/50 transition-all duration-300 ease-in-out",
+          "md:hidden absolute top-full left-0 w-full bg-background/95 backdrop-blur-xl border-b border-border/50 transition-all duration-300 ease-in-out shadow-xl",
           isMobileMenuOpen
             ? "opacity-100 translate-y-0 pointer-events-auto"
             : "opacity-0 -translate-y-2 pointer-events-none"
@@ -144,30 +147,34 @@ export function Navbar() {
       >
         <div className="container mx-auto px-4 py-6">
           <nav className="flex flex-col items-center text-center space-y-4">
-            {navigationItems.map((item) => (
+            {navigationItems.map((item, index) => (
               <Link
                 key={item.name}
                 href={item.href}
-                className="text-sm font-medium text-muted-foreground hover:text-foreground transition-colors duration-200 py-2 w-full"
+                className="text-sm font-medium text-muted-foreground hover:text-foreground transition-all duration-200 py-2 w-full hover:bg-primary/5 rounded-lg px-4 transform hover:scale-105"
                 onClick={() => setIsMobileMenuOpen(false)}
+                style={{ transitionDelay: `${index * 100}ms` }}
               >
                 {item.name}
               </Link>
             ))}
           </nav>
 
-          <div className="mt-2 pt-2 border-t border-border/50 flex flex-col items-center space-y-4">
+          <div className="mt-6 pt-6 border-t border-border/50 flex flex-col items-center space-y-4">
             <ThemeToggle />
 
             {isPending ? null : session ? (
               <div className="pt-2">
-                <Button onClick={handleSignOut}>
+                <Button 
+                  onClick={handleSignOut}
+                  className="bg-gradient-to-r from-primary to-secondary hover:from-primary/90 hover:to-secondary/90 text-white shadow-lg transition-all duration-300 hover:scale-105"
+                >
                   <LogOutIcon
                     size={16}
-                    className="opacity-60"
+                    className="opacity-80"
                     aria-hidden="true"
                   />
-                  Cerrar Sesion
+                  Cerrar Sesión
                 </Button>
               </div>
             ) : (
@@ -176,7 +183,7 @@ export function Navbar() {
                   href="/login"
                   className={cn(
                     buttonVariants({ variant: "outline", size: "sm" }),
-                    "w-full justify-center"
+                    "w-full justify-center transition-all duration-300 hover:scale-105 border-primary/30 hover:border-primary/50 hover:bg-primary/5"
                   )}
                   onClick={() => setIsMobileMenuOpen(false)}
                 >
@@ -187,13 +194,13 @@ export function Navbar() {
                   href="/donate"
                   className={cn(
                     buttonVariants({ size: "sm" }),
-                    "w-full justify-center bg-gradient-to-r from-primary to-secondary hover:from-primary/90 hover:to-secondary/90 text-white"
+                    "w-full justify-center bg-gradient-to-r from-primary to-secondary hover:from-primary/90 hover:to-secondary/90 text-white shadow-lg transition-all duration-300 hover:scale-105"
                   )}
                   onClick={() => setIsMobileMenuOpen(false)}
                 >
                   <span className="flex items-center justify-center space-x-1">
                     <span>Donar</span>
-                    <Sparkles className="w-3 h-3" />
+                    <Sparkles className="w-3 h-3 animate-pulse" />
                   </span>
                 </Link>
               </div>
