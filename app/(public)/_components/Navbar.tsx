@@ -36,8 +36,6 @@ export function Navbar() {
     return () => window.removeEventListener("scroll", handleScroll);
   }, []);
 
-
-
   return (
     <header
       className={cn(
@@ -64,7 +62,7 @@ export function Navbar() {
             />
           </div>
           <div className="flex items-center space-x-1">
-            <span className="font-black text-lg bg-gradient-to-r from-primary to-secondary bg-clip-text text-transparent">
+            <span className="font-black text-lg  from-primary to-secondary bg-clip-text ">
               OPEN MIND
             </span>
             <Sparkles className="w-4 h-4 text-primary group-hover:animate-spin transition-transform duration-300" />
@@ -165,7 +163,7 @@ export function Navbar() {
 
             {isPending ? null : session ? (
               <div className="pt-2">
-                <Button 
+                <Button
                   onClick={handleSignOut}
                   className="bg-gradient-to-r from-primary to-secondary hover:from-primary/90 hover:to-secondary/90 text-white shadow-lg transition-all duration-300 hover:scale-105"
                 >
