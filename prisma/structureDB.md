@@ -241,14 +241,6 @@ datasource db {
 - Integridad referencial con cascade deletes
 - Funcionalidad de impersonación para admins
 
-### 🔄 Posibles Mejoras Futuras
-
-- Tabla de categorías separada para normalización
-- Sistema de enrollments (inscripciones)
-- Tabla de reviews/ratings para cursos
-- Sistema de tags para cursos
-- Tabla de lecciones/capítulos
-- Sistema de notificaciones
 
 ### 🛡️ Seguridad
 
