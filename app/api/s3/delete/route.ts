@@ -15,7 +15,6 @@ export async function DELETE(request: Request) {
     const validation = deleteSchema.safeParse(body);
 
     if (!validation.success) {
-      console.error("❌ Validación fallida:", validation.error);
       return NextResponse.json(
         { error: "Invalid request body", details: validation.error.errors },
         { status: 400 }
@@ -29,11 +28,6 @@ export async function DELETE(request: Request) {
       Key: key,
     });
 
-    console.log("📦 Comando S3 delete creado:", {
-      bucket: env.NEXT_PUBLIC_S3_BUCKET_NAME_IMAGES,
-      key,
-    });
-
     await S3.send(command);
 
     return NextResponse.json({
@@ -41,7 +35,6 @@ export async function DELETE(request: Request) {
       message: "File deleted successfully",
     });
   } catch (error) {
-    console.error("❌ Error eliminando archivo:", error);
     return NextResponse.json(
       {
         error: "Failed to delete file",

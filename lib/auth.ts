@@ -28,7 +28,6 @@ export const auth = betterAuth({
     emailOTP({
       async sendVerificationOTP({ email, otp, type }) {
         try {
-          console.log(`Enviando OTP ${otp} a ${email} para ${type}`);
           const { data, error } = await resend.emails.send({
             from: "OPEN MIND <felipe@felipesanchezdev.site>",
             to: [email],
@@ -278,5 +277,6 @@ export const auth = betterAuth({
         }
       },
     }),
+    // admin(),
   ],
 });

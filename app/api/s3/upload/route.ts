@@ -9,7 +9,6 @@ import arcjet from "@/lib/arcjet";
 import { detectBot, fixedWindow } from "@arcjet/next";
 import { auth } from "@/lib/auth";
 import { headers } from "next/headers";
-import { error } from "console";
 
 export const fileUploadSchema = z.object({
   fileName: z.string().min(1, { message: "File name is required" }),
