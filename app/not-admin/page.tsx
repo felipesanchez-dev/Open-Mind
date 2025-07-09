@@ -249,7 +249,7 @@ export default function NotAdminPage() {
             <div className="grid sm:grid-cols-2 lg:grid-cols-2 gap-4">
               <Button
                 onClick={handleBackToHome}
-                className="h-auto p-6 flex-col gap-2 bg-primary hover:bg-primary/90"
+                className="h-auto p-6 flex-col gap-2 bg-primary hover:bg-primary/90 cursor-pointer"
               >
                 <Home className="h-6 w-6" />
                 <span className="font-semibold">Ir al Inicio</span>
