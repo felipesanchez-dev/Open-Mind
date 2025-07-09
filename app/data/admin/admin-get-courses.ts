@@ -18,7 +18,10 @@ export async function adminGetCourses() {
       price: true,
       fileKey: true,
       slug: true,
+      category: true,
     },
   });
   return data;
 }
+
+export type AdminCourseType = Awaited<ReturnType<typeof adminGetCourses>>[0];

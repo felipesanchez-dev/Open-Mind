@@ -1,22 +1,30 @@
+import { adminGetCourses } from "@/app/data/admin/admin-get-courses";
 import { buttonVariants } from "@/components/ui/button";
 import Link from "next/link";
+import { AdminCourseCard } from "./_components/AdminCourseCard";
 
-export default function CoursesPage() {
+export default async function CoursesPage() {
+  const data = await adminGetCourses();
   return (
-    <div className="container mx-auto py-8 px-4">
-      <div className="flex items-center justify-between mb-8">
+    <>
+    <div className="container mx-auto py-4 px-4">
+      <div className="flex items-center justify-between mb-2">
         <h1 className="text-3xl font-bold">Tus cursos</h1>
         <Link
           href="/admin/courses/create"
-          className={buttonVariants({ variant: "default" })}
+          className={buttonVariants({ variant: "outline" })}
         >
           Crear curso
         </Link>
       </div>
-      <div className=" rounded-lg p-12 text-center border-2 border-dashed border-gray-300">
-        <p className="text-lg font-medium">Aquí verás todos tus cursos</p>
-        <p className="text-sm mt-2 text-muted-foreground">Comienza creando tu primer curso</p>
-      </div>
     </div>
+
+    <div className="grid grid-cols-2 sm:grid-cols-2 md:grid-cols-1 lg:grid-cols-2 gap-7">
+      {data.map((course) => (
+        <AdminCourseCard key={course.id} data={course} />
+      ))}
+    </div>
+    </>
+  
   );
 }
