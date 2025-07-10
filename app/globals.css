@@ -878,3 +878,108 @@ html {
       rgba(var(--secondary), 0.1) 100%);
   }
 }
+
+/* Credits section sticky improvements */
+.credits-sticky-card {
+  transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+@media (min-width: 1024px) {
+  .credits-sticky-card {
+    position: sticky;
+    top: 2.5rem;
+  }
+}
+
+/* Smooth scroll behavior for the entire page */
+html {
+  scroll-behavior: smooth;
+}
+
+/* Credits section animations */
+@keyframes float {
+  0%, 100% {
+    transform: translateY(0px);
+  }
+  50% {
+    transform: translateY(-10px);
+  }
+}
+
+.float-animation {
+  animation: float 6s ease-in-out infinite;
+}
+
+/* Improved hover effects for badges */
+.badge-hover {
+  transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+.badge-hover:hover {
+  transform: translateY(-2px) scale(1.05);
+  box-shadow: 0 4px 12px rgba(var(--primary), 0.25);
+}
+
+/* Social links enhanced animation */
+.social-link {
+  transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+.social-link:hover {
+  transform: translateY(-3px) rotate(5deg);
+  box-shadow: 0 6px 20px rgba(var(--primary), 0.3);
+}
+
+/* Staggered animation for skills */
+@keyframes fadeInUp {
+  from {
+    opacity: 0;
+    transform: translateY(20px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+.skill-badge {
+  animation: fadeInUp 0.6s ease-out forwards;
+  opacity: 0;
+}
+
+/* Content sections smooth reveal */
+.content-section {
+  opacity: 0;
+  transform: translateY(30px);
+  animation: fadeInUp 0.8s ease-out forwards;
+}
+
+.content-section:nth-child(1) { animation-delay: 0.1s; }
+.content-section:nth-child(2) { animation-delay: 0.2s; }
+.content-section:nth-child(3) { animation-delay: 0.3s; }
+.content-section:nth-child(4) { animation-delay: 0.4s; }
+
+/* Profile card glow effect */
+.profile-glow {
+  position: relative;
+}
+
+.profile-glow::before {
+  content: '';
+  position: absolute;
+  inset: -2px;
+  padding: 2px;
+  background: linear-gradient(45deg, 
+    rgba(var(--primary), 0.5), 
+    rgba(var(--secondary), 0.5), 
+    rgba(var(--primary), 0.5)
+  );
+  border-radius: inherit;
+  opacity: 0;
+  transition: opacity 0.3s ease;
+  z-index: -1;
+}
+
+.profile-glow:hover::before {
+  opacity: 1;
+}
