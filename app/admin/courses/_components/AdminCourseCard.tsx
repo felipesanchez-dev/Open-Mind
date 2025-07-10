@@ -1,7 +1,15 @@
 import { AdminCourseType } from "@/app/data/admin/admin-get-courses";
+import { Button } from "@/components/ui/button";
 import { Card, CardContent } from "@/components/ui/card";
+import {
+  DropdownMenu,
+  DropdownMenuContent,
+  DropdownMenuItem,
+  DropdownMenuSeparator,
+  DropdownMenuTrigger,
+} from "@/components/ui/dropdown-menu";
 import { useConstructUrl } from "@/hooks/use-construct";
-import { ClockFading, Edit2Icon, UserCheck } from "lucide-react";
+import { Clock, Delete, Edit2Icon, Eye, MoreVertical, Pencil, School, Trash } from "lucide-react";
 import Image from "next/image";
 import Link from "next/link";
 
@@ -14,6 +22,33 @@ export function AdminCourseCard({ data }: iAppProps) {
   return (
     <Card className="group w-full max-w-md mx-auto bg-white dark:bg-gray-900 rounded-xl shadow-lg hover:shadow-2xl transition-all duration-300 overflow-hidden border border-gray-200 dark:border-gray-700">
       <div className="relative w-full h-52 overflow-hidden">
+        <div className="absolute top-2 right-2 z-10">
+          <DropdownMenu>
+            <DropdownMenuTrigger asChild>
+              <Button variant="secondary" size="icon">
+                <MoreVertical size="4" />
+              </Button>
+            </DropdownMenuTrigger>
+            <DropdownMenuContent align="end" className="w-40">
+              <DropdownMenuItem asChild className="cursor-pointer  ">
+                <Link href={`/admin/courses/${data.id}/edit`}>
+                  <Pencil size="1" /> Editar Curso
+                </Link>
+              </DropdownMenuItem>
+              <DropdownMenuItem asChild className="cursor-pointer  ">
+                <Link href={`/courses/${data.slug}`}>
+                  <Eye size="1" /> Ver curso
+                </Link>
+              </DropdownMenuItem>
+              <DropdownMenuSeparator />
+              <DropdownMenuItem asChild className="cursor-pointer bg-red-900">
+                <Link href={`admin/courses/${data.id}/delete`}>
+                  <Trash size="1" className="text-white" /> Eliminar curso
+                </Link>
+              </DropdownMenuItem>
+            </DropdownMenuContent>
+          </DropdownMenu>
+        </div>
         <Image
           src={thumbnailUrl}
           alt={data.title}
@@ -22,7 +57,7 @@ export function AdminCourseCard({ data }: iAppProps) {
           sizes="(max-width: 768px) 100vw, (max-width: 1200px) 50vw, 33vw"
         />
 
-        <div className="absolute top-3 right-3">
+        <div className="absolute top-3 right-70">
           <span className="inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-medium bg-green-100 text-green-800 dark:bg-green-900 dark:text-green-200">
             {data.status || "Activo"}
           </span>
@@ -46,12 +81,12 @@ export function AdminCourseCard({ data }: iAppProps) {
 
         <div className="flex items-center justify-between text-sm text-gray-500 dark:text-gray-400 pt-2 border-t border-gray-100 dark:border-gray-800">
           <div className="flex items-center gap-1">
-            <UserCheck className="w-4 h-4" />
-            <span>0 estudiantes</span>
+            <Clock className="w-4 h-4" />
+            <span>{data.duration}h </span>
           </div>
           <div className="flex items-center gap-1">
-            <ClockFading className="w-4 h-4" />
-            <span>0 lecciones</span>
+            <School className="w-4 h-4" />
+            <span>{data.level}</span>
           </div>
         </div>
 
