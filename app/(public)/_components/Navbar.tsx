@@ -13,6 +13,7 @@ import {
   ChevronDown,
   LayoutDashboard,
   Shield,
+  BookOpenIcon,
 } from "lucide-react";
 import { cn } from "@/lib/utils";
 import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
@@ -36,9 +37,6 @@ const navigationItems = [
     name: "TESTIMONIOS",
     href: "#testimonials",
   },
-  
-  
-
 ];
 
 export function Navbar() {
@@ -50,7 +48,7 @@ export function Navbar() {
 
   useEffect(() => {
     setIsHydrated(true);
-    
+
     const handleScroll = () => {
       setIsScrolled(window.scrollY > 10);
     };
@@ -220,6 +218,14 @@ export function Navbar() {
                 </summary>
 
                 <div className="mt-3 space-y-2 pl-4">
+                  <Link
+                    href="/courses"
+                    className="flex items-center gap-3 text-sm text-muted-foreground hover:text-foreground py-2 px-3 rounded-md hover:bg-primary/5 transition-all duration-200"
+                    onClick={() => setIsMobileMenuOpen(false)}
+                  >
+                    <BookOpenIcon className="w-4 h-4 text-muted-foreground" />
+                    Cursos
+                  </Link>
                   <Link
                     href="/dashboard"
                     className="flex items-center gap-3 text-sm text-muted-foreground hover:text-foreground py-2 px-3 rounded-md hover:bg-primary/5 transition-all duration-200"
