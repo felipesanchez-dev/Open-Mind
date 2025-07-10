@@ -34,9 +34,12 @@ export function Navbar() {
   const { data: session, isPending } = authClient.useSession();
   const [isScrolled, setIsScrolled] = useState(false);
   const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
+  const [isHydrated, setIsHydrated] = useState(false);
   const { handleSignOut } = useSignOut();
 
   useEffect(() => {
+    setIsHydrated(true);
+    
     const handleScroll = () => {
       setIsScrolled(window.scrollY > 10);
     };
@@ -49,7 +52,7 @@ export function Navbar() {
     <header
       className={cn(
         "fixed top-0 z-50 w-full transition-all duration-500 ease-in-out",
-        isScrolled
+        isHydrated && isScrolled
           ? "bg-background/90 backdrop-blur-xl border-b border-border/50 shadow-xl shadow-primary/10"
           : "bg-transparent backdrop-blur-sm"
       )}
