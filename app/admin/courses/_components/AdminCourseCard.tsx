@@ -9,7 +9,15 @@ import {
   DropdownMenuTrigger,
 } from "@/components/ui/dropdown-menu";
 import { useConstructUrl } from "@/hooks/use-construct";
-import { Clock, Delete, Edit2Icon, Eye, MoreVertical, Pencil, School, Trash } from "lucide-react";
+import {
+  Clock,
+  Edit2Icon,
+  Eye,
+  MoreVertical,
+  Pencil,
+  School,
+  Trash,
+} from "lucide-react";
 import Image from "next/image";
 import Link from "next/link";
 
@@ -22,28 +30,71 @@ export function AdminCourseCard({ data }: iAppProps) {
   return (
     <Card className="group w-full max-w-md mx-auto bg-white dark:bg-gray-900 rounded-xl shadow-lg hover:shadow-2xl transition-all duration-300 overflow-hidden border border-gray-200 dark:border-gray-700">
       <div className="relative w-full h-52 overflow-hidden">
-        <div className="absolute top-2 right-2 z-10">
+        <div className="absolute top-3 right-3 z-10">
           <DropdownMenu>
             <DropdownMenuTrigger asChild>
-              <Button variant="secondary" size="icon">
-                <MoreVertical size="4" />
+              <Button
+                variant="secondary"
+                size="icon"
+                className="w-8 h-8 bg-white/90 hover:bg-white dark:bg-gray-800/90 dark:hover:bg-gray-800 backdrop-blur-sm border border-gray-200/50 dark:border-gray-700/50 shadow-lg hover:shadow-xl transition-all duration-200"
+              >
+                <MoreVertical className="w-4 h-4" />
               </Button>
             </DropdownMenuTrigger>
-            <DropdownMenuContent align="end" className="w-40">
-              <DropdownMenuItem asChild className="cursor-pointer  ">
-                <Link href={`/admin/courses/${data.id}/edit`}>
-                  <Pencil size="1" /> Editar Curso
+            <DropdownMenuContent
+              align="end"
+              className="w-48 bg-white dark:bg-gray-900 border border-gray-200 dark:border-gray-700 shadow-xl rounded-lg p-1"
+            >
+              <DropdownMenuItem
+                asChild
+                className="cursor-pointer rounded-md hover:bg-blue-50 dark:hover:bg-blue-950/50 transition-colors duration-200 group/item"
+              >
+                <Link
+                  href={`/admin/courses/${data.id}/edit`}
+                  className="flex items-center gap-3 px-3 py-2"
+                >
+                  <div className="w-8 h-8 rounded-full bg-blue-100 dark:bg-blue-900/50 flex items-center justify-center group-hover/item:bg-blue-200 dark:group-hover/item:bg-blue-800/50 transition-colors">
+                    <Pencil className="w-4 h-4 text-blue-600 dark:text-blue-400" />
+                  </div>
+                  <span className="text-sm font-medium text-gray-700 dark:text-gray-300">
+                    Editar Curso
+                  </span>
                 </Link>
               </DropdownMenuItem>
-              <DropdownMenuItem asChild className="cursor-pointer  ">
-                <Link href={`/courses/${data.slug}`}>
-                  <Eye size="1" /> Ver curso
+
+              <DropdownMenuItem
+                asChild
+                className="cursor-pointer rounded-md hover:bg-green-50 dark:hover:bg-green-950/50 transition-colors duration-200 group/item"
+              >
+                <Link
+                  href={`/courses/${data.slug}`}
+                  className="flex items-center gap-3 px-3 py-2"
+                >
+                  <div className="w-8 h-8 rounded-full bg-green-100 dark:bg-green-900/50 flex items-center justify-center group-hover/item:bg-green-200 dark:group-hover/item:bg-green-800/50 transition-colors">
+                    <Eye className="w-4 h-4 text-green-600 dark:text-green-400" />
+                  </div>
+                  <span className="text-sm font-medium text-gray-700 dark:text-gray-300">
+                    Ver Curso
+                  </span>
                 </Link>
               </DropdownMenuItem>
-              <DropdownMenuSeparator />
-              <DropdownMenuItem asChild className="cursor-pointer bg-red-900">
-                <Link href={`admin/courses/${data.id}/delete`}>
-                  <Trash size="1" className="text-white" /> Eliminar curso
+
+              <DropdownMenuSeparator className="my-2 bg-gray-200 dark:bg-gray-700" />
+
+              <DropdownMenuItem
+                asChild
+                className="cursor-pointer rounded-md hover:bg-red-50 dark:hover:bg-red-950/50 transition-colors duration-200 group/item"
+              >
+                <Link
+                  href={`admin/courses/${data.id}/delete`}
+                  className="flex items-center gap-3 px-3 py-2"
+                >
+                  <div className="w-8 h-8 rounded-full bg-red-100 dark:bg-red-900/50 flex items-center justify-center group-hover/item:bg-red-200 dark:group-hover/item:bg-red-800/50 transition-colors">
+                    <Trash className="w-4 h-4 text-red-600 dark:text-red-400" />
+                  </div>
+                  <span className="text-sm font-medium text-gray-700 dark:text-gray-300">
+                    Eliminar Curso
+                  </span>
                 </Link>
               </DropdownMenuItem>
             </DropdownMenuContent>
@@ -57,8 +108,8 @@ export function AdminCourseCard({ data }: iAppProps) {
           sizes="(max-width: 768px) 100vw, (max-width: 1200px) 50vw, 33vw"
         />
 
-        <div className="absolute top-3 right-70">
-          <span className="inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-medium bg-green-100 text-green-800 dark:bg-green-900 dark:text-green-200">
+        <div className="absolute bottom-3 left-3">
+          <span className="inline-flex items-center px-3 py-1 rounded-full text-xs font-medium bg-green-100/90 text-green-800 dark:bg-green-900/90 dark:text-green-200 backdrop-blur-sm border border-green-200/50 dark:border-green-700/50 shadow-sm">
             {data.status || "Activo"}
           </span>
         </div>
