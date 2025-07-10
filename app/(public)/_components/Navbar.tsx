@@ -22,12 +22,22 @@ import { useSignOut } from "@/hooks/use-singout";
 const navigationItems = [
   {
     name: "INICIO",
-    href: "/",
+    href: "#hero",
   },
   {
-    name: "CURSOS",
-    href: "/courses",
+    name: "CURSOS RECOMENDADOS",
+    href: "#recommended-courses",
   },
+  {
+    name: "CREDITOS",
+    href: "#credits",
+  },
+  {
+    name: "TESTIMONIOS",
+    href: "#testimonials",
+  },
+  
+
 ];
 
 export function Navbar() {
