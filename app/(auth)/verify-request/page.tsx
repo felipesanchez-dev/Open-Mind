@@ -16,10 +16,10 @@ import {
 import { authClient } from "@/lib/auth-client";
 import { Loader2 } from "lucide-react";
 import { useRouter, useSearchParams } from "next/navigation";
-import { useState, useTransition, useEffect } from "react";
+import { useState, useTransition, useEffect, Suspense } from "react";
 import { toast } from "sonner";
 
-export default function VerifyRequestPage() {
+function VerifyRequestContent() {
   const router = useRouter();
   const [otp, setOtp] = useState("");
   const [emailPending, startTransition] = useTransition();
@@ -342,5 +342,19 @@ export default function VerifyRequestPage() {
         </CardContent>
       </Card>
     </div>
+  );
+}
+
+export default function VerifyRequestPage() {
+  return (
+    <Suspense
+      fallback={
+        <div className="flex items-center justify-center min-h-screen">
+          <Loader2 className="h-8 w-8 animate-spin" />
+        </div>
+      }
+    >
+      <VerifyRequestContent />
+    </Suspense>
   );
 }

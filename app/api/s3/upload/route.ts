@@ -1,20 +1,13 @@
 import { env } from "@/lib/env";
 import { PutObjectCommand } from "@aws-sdk/client-s3";
 import { NextResponse } from "next/server";
-import { z } from "zod";
 import { v4 as uuidv4 } from "uuid";
 import { getSignedUrl } from "@aws-sdk/s3-request-presigner";
 import { S3 } from "@/lib/S3Client";
 import arcjet from "@/lib/arcjet";
 import { detectBot, fixedWindow } from "@arcjet/next";
 import { requireAdmin } from "@/app/data/admin/require-admin";
-
-export const fileUploadSchema = z.object({
-  fileName: z.string().min(1, { message: "File name is required" }),
-  contentType: z.string().min(1, { message: "Content type is required" }),
-  size: z.number().min(1, { message: "File size must be greater than 0" }),
-  isImage: z.boolean(),
-});
+import { fileUploadSchema } from "@/lib/schemas/file-upload";
 
 const aj = arcjet
   .withRule(
