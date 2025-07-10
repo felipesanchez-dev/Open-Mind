@@ -14,8 +14,6 @@ import { Separator } from "@/components/ui/separator";
 import { authClient } from "@/lib/auth-client";
 import {
   Mail,
-  Eye,
-  EyeOff,
   Loader,
   GithubIcon,
   Loader2,
@@ -31,12 +29,7 @@ export function LoginForm() {
   const [githubPending, startGithubTransition] = useTransition();
   const [googlePending, startGoogleTransition] = useTransition();
   const [emailPending, startEmailTransition] = useTransition();
-  const [showPassword, setShowPassword] = useState(false);
   const [email, setEmail] = useState("");
-
-  const togglePasswordVisibility = () => {
-    setShowPassword(!showPassword);
-  };
 
   async function signInWithGithub() {
     startGithubTransition(async () => {
