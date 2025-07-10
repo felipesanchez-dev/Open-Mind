@@ -216,7 +216,7 @@ export default function Home() {
       </div>
 
       {/* Sección de cursos recomendados  */}
-      <section className="py-20 px-4 sm:px-6 lg:px-8 bg-background relative overflow-hidden">
+      <section className="py-20 px-4 sm:px-6 lg:px-8 bg-background relative overflow-hidden pb-40">
         <div className="absolute inset-0 overflow-hidden pointer-events-none">
           <div className="absolute top-1/4 left-1/4 w-96 h-96 bg-primary/5 rounded-full blur-3xl animate-pulse" />
           <div className="absolute bottom-1/4 right-1/4 w-96 h-96 bg-primary/5 rounded-full blur-3xl animate-pulse" />
@@ -338,7 +338,9 @@ export default function Home() {
       </section>
 
       {/* Sección de Créditos */}
-      <CreditsSection />
+      <section className="py-16 px-4 sm:px-6 lg:px-8 bg-gradient-to-br from-muted/30 via-muted/20 to-background">
+        <CreditsSection />
+      </section>
 
       {/* Sección de Testimonios */}
       <section className="py-20 px-4 sm:px-6 lg:px-8 bg-background relative overflow-hidden">
