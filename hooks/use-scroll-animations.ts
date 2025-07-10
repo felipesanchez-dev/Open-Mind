@@ -8,9 +8,7 @@ export interface ScrollAnimationOptions {
   once?: boolean;
 }
 
-export const useScrollAnimation = (
-  options: ScrollAnimationOptions = {}
-) => {
+export const useScrollAnimation = (options: ScrollAnimationOptions = {}) => {
   const [isVisible, setIsVisible] = useState(false);
   const [elementRef, setElementRef] = useState<HTMLElement | null>(null);
 
@@ -82,7 +80,8 @@ export const useScrollProgress = () => {
   useEffect(() => {
     const handleScroll = () => {
       const scrollTop = window.pageYOffset;
-      const docHeight = document.documentElement.scrollHeight - window.innerHeight;
+      const docHeight =
+        document.documentElement.scrollHeight - window.innerHeight;
       const scrollPercent = (scrollTop / docHeight) * 100;
       setProgress(scrollPercent);
     };
