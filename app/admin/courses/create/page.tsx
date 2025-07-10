@@ -210,7 +210,7 @@ export default function CourseCreationPage() {
                       name="price"
                       render={({ field }) => (
                         <FormItem>
-                          <FormLabel>Precio (COP)</FormLabel>
+                          <FormLabel>Precio (COP) <span className="text-muted-foreground">Opcional</span></FormLabel>
                           <FormControl>
                             <Input
                               type="number"

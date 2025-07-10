@@ -19,6 +19,7 @@ export async function adminGetCourses() {
       fileKey: true,
       slug: true,
       category: true,
+      description: true,
     },
   });
   return data;
