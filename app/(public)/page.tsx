@@ -20,35 +20,6 @@ import { useState, useEffect } from "react";
 import { useRipple } from "@/hooks/use-ripple";
 import { Card, CardContent } from "@/components/ui/card";
 
-interface featureProps {
-  title: string;
-  description: string;
-  icon: string;
-}
-
-const feature: featureProps[] = [
-  {
-    title: "Aprende a tu ritmo",
-    description: "Cursos diseñados para adaptarse a tu estilo de aprendizaje",
-    icon: "🌍",
-  },
-  {
-    title: "Sin límites",
-    description: "Acceso a una amplia variedad de cursos sin restricciones",
-    icon: "🚀",
-  },
-  {
-    title: "Sin barreras",
-    description: "Plataforma accesible desde cualquier dispositivo",
-    icon: "🔓",
-  },
-  {
-    title: "Sin precios absurdos",
-    description: "Cursos asequibles y de alta calidad",
-    icon: "💰",
-  },
-];
-
 export default function Home() {
   const { data: session } = authClient.useSession();
   const [mousePosition, setMousePosition] = useState({ x: 0, y: 0 });
@@ -244,7 +215,7 @@ export default function Home() {
         </section>
       </div>
 
-      {/* Seccion de cursos recomendados  */}
+      {/* Sección de cursos recomendados  */}
       <section className="py-20 px-4 sm:px-6 lg:px-8 bg-background relative overflow-hidden">
         <div className="absolute inset-0 overflow-hidden pointer-events-none">
           <div className="absolute top-1/4 left-1/4 w-96 h-96 bg-primary/5 rounded-full blur-3xl animate-pulse" />
@@ -314,10 +285,10 @@ export default function Home() {
                     Aprende React, Node.js, MongoDB y más. Desde cero hasta
                     crear aplicaciones web completas y profesionales.
                   </p>
-                  <div className="flex items-center gap-4 mb-4">
+                  <div className="flex items-center gap-4 mb-4" id="#creditos">
                     <div className="flex items-center gap-1">
                       <img
-                        src="https://images.unsplash.com/photo-1560250097-0b93528c311a?w=30&h=30&fit=crop&crop=face"
+                        src="/assets/me.webp"
                         alt="Instructor"
                         className="w-6 h-6 rounded-full"
                       />
@@ -366,77 +337,262 @@ export default function Home() {
         </div>
       </section>
 
-      {/* Sección de Creditos */}
-      <section className="py-20 px-4 sm:px-6 lg:px-8 bg-muted/20 relative overflow-hidden">
+      {/* Sección de Créditos - Mejorada */}
+      <section className="py-24 px-4 sm:px-6 lg:px-8 bg-gradient-to-br from-muted/30 via-muted/20 to-background relative overflow-hidden">
         <div className="absolute inset-0 overflow-hidden pointer-events-none">
-          <div className="absolute top-1/4 right-1/4 w-96 h-96 bg-primary/5 rounded-full blur-3xl animate-pulse" />
-          <div className="absolute bottom-1/4 left-1/4 w-96 h-96 bg-primary/5 rounded-full blur-3xl animate-pulse" />
+          <div className="absolute top-1/4 right-1/4 w-96 h-96 bg-gradient-to-r from-primary/10 to-secondary/5 rounded-full blur-3xl animate-pulse opacity-70" />
+          <div className="absolute bottom-1/4 left-1/4 w-96 h-96 bg-gradient-to-l from-primary/5 to-secondary/10 rounded-full blur-3xl animate-pulse opacity-70" />
+          <div className="absolute top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2 w-72 h-72 bg-primary/5 rounded-full blur-2xl animate-pulse opacity-40" />
+
+          <div
+            className="absolute top-20 left-10 w-2 h-2 bg-primary/30 rounded-full animate-float"
+            style={{ animationDelay: "0s", animationDuration: "6s" }}
+          />
+          <div
+            className="absolute top-40 right-20 w-1 h-1 bg-secondary/40 rounded-full animate-float"
+            style={{ animationDelay: "2s", animationDuration: "8s" }}
+          />
+          <div
+            className="absolute bottom-32 left-1/4 w-3 h-3 bg-primary/20 rounded-full animate-float"
+            style={{ animationDelay: "1s", animationDuration: "7s" }}
+          />
+          <div
+            className="absolute bottom-20 right-1/3 w-1.5 h-1.5 bg-secondary/30 rounded-full animate-float"
+            style={{ animationDelay: "3s", animationDuration: "5s" }}
+          />
         </div>
 
         <div className="relative max-w-7xl mx-auto">
-          <div className="text-center mb-16">
-            <div className="inline-flex items-center gap-2 px-4 py-2 rounded-full bg-primary/10 border border-primary/20 mb-6">
-              <GraduationCap className="w-4 h-4 text-primary animate-pulse" />
-              <span className="text-sm font-medium text-primary">
-                Creditos y reconocimientos
+          <div className="text-center mb-20">
+            <div className="inline-flex items-center gap-3 px-6 py-3 rounded-full bg-gradient-to-r from-primary/10 to-secondary/10 border border-primary/20 mb-8 hover:border-primary/30 transition-all duration-300 group">
+              <GraduationCap className="w-5 h-5 text-primary animate-pulse group-hover:animate-spin transition-all duration-300" />
+              <span className="text-sm font-semibold text-primary">
+                Créditos y reconocimientos
               </span>
             </div>
-            <h2 className="text-3xl sm:text-4xl lg:text-5xl font-black text-foreground mb-6 leading-tight">
-              Desarrollador por
+            <h2 className="text-4xl sm:text-5xl lg:text-6xl font-black text-foreground mb-8 leading-tight">
+              Desarrollado por
             </h2>
-            <p className="text-base sm:text-lg text-muted-foreground max-w-2xl mx-auto leading-relaxed">
-              Conoce a la persona detrás de Open Mind
+            <p className="text-lg sm:text-xl text-muted-foreground max-w-3xl mx-auto leading-relaxed">
+              Conoce la historia detrás de Open Mind y la{" "}
+              <span className="text-primary font-semibold">
+                visión transformadora
+              </span>{" "}
+              que impulsa este proyecto
             </p>
           </div>
 
-          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-1 gap-8">
-            <div className="group relative">
-              <Card className="relative h-full bg-card border-primary/20 hover:border-primary/30 transition-all duration-500 hover:shadow-2xl hover:-translate-y-2">
-                <CardContent className="p-8 text-center">
-                  <div className="relative inline-block mb-6">
-                    <div className="w-24 h-24 rounded-full overflow-hidden ring-4 ring-primary/20 group-hover:ring-primary/40 transition-all duration-300 mx-auto">
+          <div className="grid grid-cols-1 lg:grid-cols-5 gap-12 items-start">
+            <div className="lg:col-span-2 group relative">
+              <div className="absolute inset-0 bg-gradient-to-r from-primary/20 to-secondary/20 rounded-2xl blur-xl opacity-0 group-hover:opacity-100 transition-all duration-500 transform group-hover:scale-105" />
+              <Card className="relative h-full bg-card/80 backdrop-blur-sm border-primary/20 hover:border-primary/40 transition-all duration-500 hover:shadow-2xl hover:-translate-y-3 rounded-2xl overflow-hidden">
+                <div className="absolute inset-0 bg-gradient-to-br from-primary/5 via-transparent to-secondary/5 opacity-0 group-hover:opacity-100 transition-all duration-500" />
+
+                <CardContent className="relative p-10 text-center">
+                  <div className="relative inline-block mb-8">
+                    <div className="absolute inset-0 bg-gradient-to-r from-primary to-secondary rounded-full opacity-20 blur-md group-hover:opacity-40 transition-all duration-300 animate-pulse" />
+                    <div className="relative w-32 h-32 rounded-full overflow-hidden ring-4 ring-primary/30 group-hover:ring-primary/50 transition-all duration-300 mx-auto shadow-xl">
                       <img
-                        src="https://images.unsplash.com/photo-1560250097-0b93528c311a?w=200&h=200&fit=crop&crop=face"
-                        alt="Dr. Alberto Martínez"
-                        className="w-full h-full object-cover"
+                        src="/assets/me.webp"
+                        alt="Felipe Reyes Sanchez"
+                        className="w-full h-full object-cover group-hover:scale-110 transition-transform duration-500"
                       />
                     </div>
-                    <div className="absolute -bottom-2 -right-2 w-8 h-8 bg-primary rounded-full border-2 border-background flex items-center justify-center">
-                      <Award className="w-4 h-4 text-white" />
+                    <div className="absolute -bottom-3 -right-3 w-12 h-12 bg-gradient-to-r from-primary to-secondary rounded-full border-4 border-background flex items-center justify-center group-hover:rotate-12 transition-transform duration-300 shadow-lg">
+                      <Award className="w-6 h-6 text-yellow-400 animate-pulse" />
                     </div>
                   </div>
-                  <h3 className="text-xl font-bold text-foreground mb-2">
-                    ING. Felipe Reyes Sanchez
-                  </h3>
-                  <p className="text-primary font-medium mb-3">
-                    Software Engineer
-                  </p>
-                  <p className="text-sm text-muted-foreground mb-4">
-                    FULL STACK DEVELOPER
-                  </p>
 
-                  <div className="flex justify-center gap-2">
-                    <Badge variant="outline" className="text-xs">
-                      JavaScript
-                    </Badge>
-                    <Badge variant="outline" className="text-xs">
-                      TypeScript
-                    </Badge>
-                    <Badge variant="outline" className="text-xs">
-                      React
-                    </Badge>
-                    <Badge variant="outline" className="text-xs">
-                      Node.js
-                    </Badge>
-                    <Badge variant="outline" className="text-xs">
-                      Next.js
-                    </Badge>
-                    <Badge variant="outline" className="text-xs">
-                      Architecture Software
-                    </Badge>
+                  <div className="space-y-3 mb-6">
+                    <h3 className="text-2xl font-black text-foreground group-hover:text-primary transition-colors duration-300">
+                      ING. Felipe Reyes Sanchez
+                    </h3>
+                    <div className="space-y-2">
+                      <p className="text-primary font-bold text-lg bg-primary/10 px-4 py-2 rounded-full inline-block">
+                        Software Engineer
+                      </p>
+                      <p className="text-muted-foreground font-medium uppercase tracking-wider text-sm">
+                        Full Stack Developer
+                      </p>
+                    </div>
+                  </div>
+
+                  <div className="flex flex-wrap justify-center gap-2 mb-6">
+                    {[
+                      "JavaScript",
+                      "TypeScript",
+                      "React",
+                      "Node.js",
+                      "Next.js",
+                      "Tailwind CSS",
+                      "Bases de datos",
+                      "Architecture",
+                    ].map((skill, index) => (
+                      <Badge
+                        key={skill}
+                        variant="outline"
+                        className="text-xs hover:bg-primary/10 hover:border-primary/50 transition-all duration-300 hover:scale-105"
+                        style={{ animationDelay: `${index * 100}ms` }}
+                      >
+                        {skill}
+                      </Badge>
+                    ))}
+                  </div>
+
+                  <div className="grid grid-cols-2 gap-4 p-4 bg-primary/5 rounded-xl border border-primary/20">
+                    <div className="text-center">
+                      <div className="text-lg font-bold text-primary">3+</div>
+                      <div className="text-xs text-muted-foreground">
+                        Años Exp.
+                      </div>
+                    </div>
+                    <div className="text-center">
+                      <div className="text-lg font-bold text-primary">24/7</div>
+                      <div className="text-xs text-muted-foreground">
+                        Dedicación
+                      </div>
+                    </div>
                   </div>
                 </CardContent>
               </Card>
+            </div>
+
+            <div className="lg:col-span-3 space-y-8">
+              <div className="space-y-6">
+                <div className="inline-flex items-center gap-3 px-4 py-2 rounded-full bg-gradient-to-r from-primary/10 to-secondary/10 border border-primary/20 hover:border-primary/30 transition-all duration-300 group">
+                  <Target className="w-5 h-5 text-primary group-hover:animate-pulse" />
+                  <span className="text-sm font-bold text-primary">
+                    Mi Visión Transformadora
+                  </span>
+                </div>
+
+                <h3 className="text-3xl sm:text-4xl font-black text-foreground leading-tight">
+                  Transformando la educación en América Latina
+                </h3>
+              </div>
+
+              <div className="space-y-6 text-muted-foreground leading-relaxed text-base">
+                <div className="p-6 bg-gradient-to-r from-primary/5 to-secondary/5 rounded-xl border border-primary/20 hover:border-primary/30 transition-all duration-300 group">
+                  <p className="text-foreground font-medium mb-2 text-lg">
+                    🎯 La Historia
+                  </p>
+                  <p>
+                    <strong className="text-foreground">Open Mind</strong> es mi
+                    proyecto personal, una iniciativa nacida con el propósito de
+                    <span className="text-primary font-semibold">
+                      {" "}
+                      transformar la educación
+                    </span>{" "}
+                    en América Latina y más allá.
+                  </p>
+                </div>
+
+                <div className="p-6 bg-gradient-to-r from-secondary/5 to-primary/5 rounded-xl border border-primary/20 hover:border-primary/30 transition-all duration-300 group">
+                  <p className="text-foreground font-medium mb-2 text-lg">
+                    💡 El Sueño
+                  </p>
+                  <p>
+                    Mi sueño es construir una plataforma{" "}
+                    <span className="text-foreground font-semibold">
+                      abierta, accesible y gratuita
+                    </span>{" "}
+                    para todas las personas que quieran aprender programación,
+                    matemáticas, física o cualquier rama de la tecnología.
+                  </p>
+                </div>
+
+                <div className="p-6 bg-gradient-to-r from-primary/5 to-secondary/5 rounded-xl border border-primary/20 hover:border-primary/30 transition-all duration-300 group">
+                  <p className="text-foreground font-medium mb-2 text-lg">
+                    🚀 La Misión
+                  </p>
+                  <p>
+                    Quiero{" "}
+                    <span className="text-primary font-semibold">
+                      romper barreras, cerrar brechas de conocimiento
+                    </span>{" "}
+                    y abrir fronteras educativas, llevando el aprendizaje a
+                    quienes más lo necesitan, sin importar su contexto.
+                  </p>
+                </div>
+
+                <div className="p-6 bg-gradient-to-r from-secondary/5 to-primary/5 rounded-xl border border-primary/20 hover:border-primary/30 transition-all duration-300 group">
+                  <p className="text-foreground font-medium mb-2 text-lg">
+                    ❤️ La Filosofía
+                  </p>
+                  <p>
+                    No creo en los modelos tradicionales rígidos. Open Mind
+                    ofrecerá una
+                    <span className="text-foreground font-semibold">
+                      {" "}
+                      experiencia práctica, cercana y humana
+                    </span>
+                    , donde aprender sea
+                    <span className="text-primary font-black text-lg">
+                      {" "}
+                      un derecho, no un privilegio
+                    </span>
+                    .
+                  </p>
+                </div>
+              </div>
+
+              <div className="relative p-8 bg-gradient-to-r from-primary/10 to-secondary/10 border-2 border-primary/30 rounded-2xl overflow-hidden group hover:border-primary/50 transition-all duration-300">
+                <div className="absolute inset-0 bg-gradient-to-r from-primary/5 to-secondary/5 opacity-0 group-hover:opacity-100 transition-all duration-300" />
+                <div className="relative flex items-start gap-4">
+                  <div className="w-12 h-12 bg-gradient-to-r from-primary to-secondary rounded-full flex items-center justify-center flex-shrink-0 shadow-lg">
+                    <Users className="w-6 h-6 text-white" />
+                  </div>
+                  <div className="space-y-3">
+                    <p className="text-lg font-bold text-foreground">
+                      🌟 Un impacto que trasciende fronteras
+                    </p>
+                    <p className="text-muted-foreground leading-relaxed">
+                      Este proyecto está hecho por{" "}
+                      <span className="text-primary font-bold">
+                        una sola persona
+                      </span>
+                      , pero con la ambición de impactar a{" "}
+                      <span className="text-foreground font-bold">miles</span>.
+                      Es mi forma de aportar a un mundo más educado, más libre y
+                      con más oportunidades reales para todos.
+                    </p>
+                    <div className="pt-2">
+                      <span className="inline-flex items-center gap-2 px-4 py-2 bg-primary/20 rounded-full text-sm font-semibold text-primary">
+                        <TrendingUp className="w-4 h-4" />
+                        Creciendo cada día
+                      </span>
+                    </div>
+                  </div>
+                </div>
+              </div>
+
+              {/* Estadísticas inspiradoras mejoradas */}
+              <div className="grid grid-cols-2 md:grid-cols-3 gap-6 pt-6">
+                <div className="text-center p-6 bg-card/50 backdrop-blur-sm rounded-xl border border-primary/20 hover:border-primary/40 transition-all duration-300 hover:-translate-y-1 group">
+                  <div className="text-3xl font-black text-primary mb-2 group-hover:scale-110 transition-transform duration-300">
+                    100%
+                  </div>
+                  <div className="text-sm text-muted-foreground font-medium">
+                    Gratuito
+                  </div>
+                </div>
+                <div className="text-center p-6 bg-card/50 backdrop-blur-sm rounded-xl border border-primary/20 hover:border-primary/40 transition-all duration-300 hover:-translate-y-1 group">
+                  <div className="text-3xl font-black text-primary mb-2 group-hover:scale-110 transition-transform duration-300">
+                    ∞
+                  </div>
+                  <div className="text-sm text-muted-foreground font-medium">
+                    Sin límites
+                  </div>
+                </div>
+                <div className="text-center p-6 bg-card/50 backdrop-blur-sm rounded-xl border border-primary/20 hover:border-primary/40 transition-all duration-300 hover:-translate-y-1 group">
+                  <div className="text-3xl font-black text-primary mb-2 group-hover:scale-110 transition-transform duration-300">
+                    1
+                  </div>
+                  <div className="text-sm text-muted-foreground font-medium">
+                    Desarrollador
+                  </div>
+                </div>
+              </div>
             </div>
           </div>
         </div>
