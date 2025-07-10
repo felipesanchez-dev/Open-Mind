@@ -7,6 +7,11 @@ const nextConfig: NextConfig = {
         hostname: "open-mind.fly.storage.tigris.dev",
         protocol: "https",
         port: "",
+      },
+      {
+        hostname: "lh3.googleusercontent.com",
+        protocol: "https",
+        port: "",
       }
     ]
   }
