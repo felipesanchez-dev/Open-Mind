@@ -46,10 +46,12 @@ export function MenuBar({ editor }: iAppProps) {
                   editor.chain().focus().toggleBold().run()
                 }
                 className={cn(
-                  editor.isActive("bold") && "bg-muted text-muted-foreground"
+                  "h-8 w-8 p-0",
+                  editor.isActive("bold") &&
+                    "bg-primary text-primary-foreground"
                 )}
               >
-                <Bold />
+                <Bold className="h-4 w-4" />
               </Toggle>
             </TooltipTrigger>
             <TooltipContent>Negrita</TooltipContent>
@@ -64,10 +66,12 @@ export function MenuBar({ editor }: iAppProps) {
                   editor.chain().focus().toggleItalic().run()
                 }
                 className={cn(
-                  editor.isActive("italic") && "bg-muted text-muted-foreground"
+                  "h-8 w-8 p-0",
+                  editor.isActive("italic") &&
+                    "bg-primary text-primary-foreground"
                 )}
               >
-                <Italic />
+                <Italic className="h-4 w-4" />
               </Toggle>
             </TooltipTrigger>
             <TooltipContent>Cursiva</TooltipContent>
@@ -82,10 +86,12 @@ export function MenuBar({ editor }: iAppProps) {
                   editor.chain().focus().toggleStrike().run()
                 }
                 className={cn(
-                  editor.isActive("strike") && "bg-muted text-muted-foreground"
+                  "h-8 w-8 p-0",
+                  editor.isActive("strike") &&
+                    "bg-primary text-primary-foreground"
                 )}
               >
-                <Strikethrough />
+                <Strikethrough className="h-4 w-4" />
               </Toggle>
             </TooltipTrigger>
             <TooltipContent>Tachado</TooltipContent>
@@ -93,57 +99,78 @@ export function MenuBar({ editor }: iAppProps) {
 
           <Tooltip>
             <TooltipTrigger asChild className="cursor-pointer">
-              <Toggle
+              <Button
                 size="sm"
-                pressed={editor.isActive("heading", { level: 1 })}
-                onPressedChange={() =>
-                  editor.chain().focus().toggleHeading({ level: 1 }).run()
+                variant={
+                  editor.isActive("heading", { level: 1 }) ? "default" : "ghost"
                 }
+                onClick={() => {
+                  if (editor.isActive("heading", { level: 1 })) {
+                    editor.chain().focus().setParagraph().run();
+                  } else {
+                    editor.chain().focus().setHeading({ level: 1 }).run();
+                  }
+                }}
                 className={cn(
+                  "h-8 w-8 p-0",
                   editor.isActive("heading", { level: 1 }) &&
-                    "bg-muted text-muted-foreground"
+                    "bg-primary text-primary-foreground"
                 )}
               >
-                <Heading1Icon />
-              </Toggle>
+                <Heading1Icon className="h-4 w-4" />
+              </Button>
             </TooltipTrigger>
             <TooltipContent>Título (H1)</TooltipContent>
           </Tooltip>
 
           <Tooltip>
             <TooltipTrigger asChild className="cursor-pointer">
-              <Toggle
+              <Button
                 size="sm"
-                pressed={editor.isActive("heading", { level: 2 })}
-                onPressedChange={() =>
-                  editor.chain().focus().toggleHeading({ level: 2 }).run()
+                variant={
+                  editor.isActive("heading", { level: 2 }) ? "default" : "ghost"
                 }
+                onClick={() => {
+                  if (editor.isActive("heading", { level: 2 })) {
+                    editor.chain().focus().setParagraph().run();
+                  } else {
+                    editor.chain().focus().setHeading({ level: 2 }).run();
+                  }
+                }}
                 className={cn(
+                  "h-8 w-8 p-0",
                   editor.isActive("heading", { level: 2 }) &&
-                    "bg-muted text-muted-foreground"
+                    "bg-primary text-primary-foreground"
                 )}
               >
-                <Heading2Icon />
-              </Toggle>
+                <Heading2Icon className="h-4 w-4" />
+              </Button>
             </TooltipTrigger>
             <TooltipContent>Subtítulo (H2)</TooltipContent>
           </Tooltip>
 
           <Tooltip>
             <TooltipTrigger asChild className="cursor-pointer">
-              <Toggle
+              <Button
                 size="sm"
-                pressed={editor.isActive("heading", { level: 3 })}
-                onPressedChange={() =>
-                  editor.chain().focus().toggleHeading({ level: 3 }).run()
+                variant={
+                  editor.isActive("heading", { level: 3 }) ? "default" : "ghost"
                 }
+                onClick={() => {
+                  if (editor.isActive("heading", { level: 3 })) {
+                    editor.chain().focus().setParagraph().run();
+                  } else {
+                    editor.chain().focus().setHeading({ level: 3 }).run();
+                  }
+                }}
                 className={cn(
+                  "h-8 w-8 p-0",
                   editor.isActive("heading", { level: 3 }) &&
-                    "bg-muted text-muted-foreground"
+                    "bg-primary text-primary-foreground"
                 )}
               >
-                <Heading3Icon />
-              </Toggle>
+                <Heading3Icon className="h-4 w-4" />
+              </Button>
             </TooltipTrigger>
             <TooltipContent>Subtítulo 2 (H3)</TooltipContent>
           </Tooltip>
@@ -157,11 +184,12 @@ export function MenuBar({ editor }: iAppProps) {
                   editor.chain().focus().toggleBulletList().run()
                 }
                 className={cn(
+                  "h-8 w-8 p-0",
                   editor.isActive("bulletList") &&
-                    "bg-muted text-muted-foreground"
+                    "bg-primary text-primary-foreground"
                 )}
               >
-                <ListIcon />
+                <ListIcon className="h-4 w-4" />
               </Toggle>
             </TooltipTrigger>
             <TooltipContent>Lista con viñetas</TooltipContent>
@@ -176,11 +204,12 @@ export function MenuBar({ editor }: iAppProps) {
                   editor.chain().focus().toggleOrderedList().run()
                 }
                 className={cn(
+                  "h-8 w-8 p-0",
                   editor.isActive("orderedList") &&
-                    "bg-muted text-muted-foreground"
+                    "bg-primary text-primary-foreground"
                 )}
               >
-                <ListOrderedIcon />
+                <ListOrderedIcon className="h-4 w-4" />
               </Toggle>
             </TooltipTrigger>
             <TooltipContent>Lista ordenada</TooltipContent>
@@ -191,57 +220,66 @@ export function MenuBar({ editor }: iAppProps) {
         <div className="flex flex-wrap gap-1">
           <Tooltip>
             <TooltipTrigger asChild className="cursor-pointer">
-              <Toggle
+              <Button
                 size="sm"
-                pressed={editor.isActive({ textAlign: "left" })}
-                onPressedChange={() =>
+                variant={
+                  editor.isActive({ textAlign: "left" }) ? "default" : "ghost"
+                }
+                onClick={() =>
                   editor.chain().focus().setTextAlign("left").run()
                 }
                 className={cn(
+                  "h-8 w-8 p-0",
                   editor.isActive({ textAlign: "left" }) &&
-                    "bg-muted text-muted-foreground"
+                    "bg-primary text-primary-foreground"
                 )}
               >
-                <AlignLeftIcon />
-              </Toggle>
+                <AlignLeftIcon className="h-4 w-4" />
+              </Button>
             </TooltipTrigger>
             <TooltipContent>Alinear a la izquierda</TooltipContent>
           </Tooltip>
 
           <Tooltip>
             <TooltipTrigger asChild className="cursor-pointer">
-              <Toggle
+              <Button
                 size="sm"
-                pressed={editor.isActive({ textAlign: "center" })}
-                onPressedChange={() =>
+                variant={
+                  editor.isActive({ textAlign: "center" }) ? "default" : "ghost"
+                }
+                onClick={() =>
                   editor.chain().focus().setTextAlign("center").run()
                 }
                 className={cn(
+                  "h-8 w-8 p-0",
                   editor.isActive({ textAlign: "center" }) &&
-                    "bg-muted text-muted-foreground"
+                    "bg-primary text-primary-foreground"
                 )}
               >
-                <AlignCenterIcon />
-              </Toggle>
+                <AlignCenterIcon className="h-4 w-4" />
+              </Button>
             </TooltipTrigger>
             <TooltipContent>Centrar</TooltipContent>
           </Tooltip>
 
           <Tooltip>
             <TooltipTrigger asChild className="cursor-pointer">
-              <Toggle
+              <Button
                 size="sm"
-                pressed={editor.isActive({ textAlign: "right    " })}
-                onPressedChange={() =>
+                variant={
+                  editor.isActive({ textAlign: "right" }) ? "default" : "ghost"
+                }
+                onClick={() =>
                   editor.chain().focus().setTextAlign("right").run()
                 }
                 className={cn(
+                  "h-8 w-8 p-0",
                   editor.isActive({ textAlign: "right" }) &&
-                    "bg-muted text-muted-foreground"
+                    "bg-primary text-primary-foreground"
                 )}
               >
-                <AlignRightIcon />
-              </Toggle>
+                <AlignRightIcon className="h-4 w-4" />
+              </Button>
             </TooltipTrigger>
             <TooltipContent>Alinear a la derecha</TooltipContent>
           </Tooltip>
@@ -256,8 +294,9 @@ export function MenuBar({ editor }: iAppProps) {
                 type="button"
                 onClick={() => editor.chain().focus().undo().run()}
                 disabled={!editor.can().undo()}
+                className="h-8 w-8 p-0"
               >
-                <Undo />
+                <Undo className="h-4 w-4" />
               </Button>
             </TooltipTrigger>
             <TooltipContent>Deshacer</TooltipContent>
@@ -271,8 +310,9 @@ export function MenuBar({ editor }: iAppProps) {
                 type="button"
                 onClick={() => editor.chain().focus().redo().run()}
                 disabled={!editor.can().redo()}
+                className="h-8 w-8 p-0"
               >
-                <Redo />
+                <Redo className="h-4 w-4" />
               </Button>
             </TooltipTrigger>
             <TooltipContent>Rehacer</TooltipContent>

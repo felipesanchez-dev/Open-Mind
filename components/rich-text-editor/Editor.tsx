@@ -8,7 +8,11 @@ import TextAlign from "@tiptap/extension-text-align";
 export function RichTextEditor({ field }: { field: any }) {
   const editor = useEditor({
     extensions: [
-      StarterKit,
+      StarterKit.configure({
+        heading: {
+          levels: [1, 2, 3],
+        },
+      }),
       TextAlign.configure({
         types: ["heading", "paragraph"],
       }),
@@ -25,7 +29,7 @@ export function RichTextEditor({ field }: { field: any }) {
     onUpdate: ({ editor }) => {
       field.onChange(JSON.stringify(editor.getJSON()));
     },
-    content: field.value ? JSON.parse(field.value) : "<p></p>",
+    content: field.value ? JSON.parse(field.value) : "",
   });
 
   return (

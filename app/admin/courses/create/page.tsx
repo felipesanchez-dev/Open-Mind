@@ -15,7 +15,7 @@ import {
   courseLevels,
   courseStatuses,
 } from "@/lib/zodShemas";
-import { ArrowLeft, Loader2, PlusIcon, SparkleIcon } from "lucide-react";
+import { ArrowLeft, Loader2, SparkleIcon } from "lucide-react";
 import Link from "next/link";
 import { useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
@@ -194,7 +194,7 @@ export default function CourseCreationPage() {
                           <Uploader
                             value={field.value}
                             onChange={field.onChange}
-                            onUploadComplete={(key, url) => {
+                            onUploadComplete={(key) => {
                               field.onChange(key);
                             }}
                           />
