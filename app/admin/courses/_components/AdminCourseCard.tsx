@@ -12,8 +12,8 @@ interface iAppProps {
 export function AdminCourseCard({ data }: iAppProps) {
   const thumbnailUrl = useConstructUrl(data.fileKey);
   return (
-    <Card className="group w-full max-w-sm mx-auto bg-white dark:bg-gray-900 rounded-xl shadow-lg hover:shadow-2xl transition-all duration-300 overflow-hidden border border-gray-200 dark:border-gray-700">
-      <div className="relative w-full h-48 overflow-hidden">
+    <Card className="group w-full max-w-md mx-auto bg-white dark:bg-gray-900 rounded-xl shadow-lg hover:shadow-2xl transition-all duration-300 overflow-hidden border border-gray-200 dark:border-gray-700">
+      <div className="relative w-full h-52 overflow-hidden">
         <Image
           src={thumbnailUrl}
           alt={data.title}
