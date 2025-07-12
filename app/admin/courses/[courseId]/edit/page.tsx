@@ -7,6 +7,7 @@ import {
   CardTitle,
 } from "@/components/ui/card";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
+import { EditCourseForm } from "./_components/EditCourseForm";
 
 type Params = Promise<{ courseId: string }>;
 
@@ -36,7 +37,9 @@ export default async function EditRoute({ params }: { params: Params }) {
                 titulo, descripcion, etc.
               </CardDescription>
             </CardHeader>
-            <CardContent></CardContent>
+            <CardContent>
+                <EditCourseForm />
+            </CardContent>
           </Card>
         </TabsContent>
       </Tabs>
