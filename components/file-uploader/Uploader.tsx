@@ -3,9 +3,14 @@ import { useCallback, useState, useEffect } from "react";
 import { FileRejection, useDropzone } from "react-dropzone";
 import { Card, CardContent } from "../ui/card";
 import { cn } from "@/lib/utils";
-import { RenderEmptyState, RenderErrorState, RenderUploadedState } from "./RenderState";
+import {
+  RenderEmptyState,
+  RenderErrorState,
+  RenderUploadedState,
+} from "./RenderState";
 import { toast } from "sonner";
 import { v4 as uuidv4 } from "uuid";
+import { useConstructUrl } from "@/hooks/use-construct";
 
 interface UploaderState {
   id: string | null;
@@ -26,7 +31,8 @@ interface UploaderProps {
   className?: string;
 }
 
-export function Uploader({ value, onChange, onUploadComplete, className }: UploaderProps) {
+export function Uploader({ value, onChange, onUploadComplete }: UploaderProps) {
+  const fileUrl = useConstructUrl(value || "");
   const [fileState, setFileState] = useState<UploaderState>({
     error: false,
     file: null,
@@ -35,15 +41,15 @@ export function Uploader({ value, onChange, onUploadComplete, className }: Uploa
     progress: 0,
     isDeleting: false,
     fileType: "image",
+    key: value,
+    objectUrl: fileUrl,
   });
 
   useEffect(() => {
-    
     if (value && value !== fileState.key) {
-      console.log("📥 Cargando archivo existente desde S3:", value);
       const publicUrl = `https://${process.env.NEXT_PUBLIC_S3_BUCKET_NAME_IMAGES}.s3.amazonaws.com/${value}`;
-      
-      setFileState(prev => ({
+
+      setFileState((prev) => ({
         ...prev,
         key: value,
         objectUrl: publicUrl,
@@ -52,7 +58,7 @@ export function Uploader({ value, onChange, onUploadComplete, className }: Uploa
         progress: 100,
       }));
     } else if (!value && fileState.key) {
-      setFileState(prev => ({
+      setFileState((prev) => ({
         ...prev,
         key: undefined,
         objectUrl: undefined,
@@ -67,7 +73,7 @@ export function Uploader({ value, onChange, onUploadComplete, className }: Uploa
   async function deleteFile(key: string) {
     try {
       setFileState((prev) => ({ ...prev, isDeleting: true }));
-      
+
       const response = await fetch(`/api/s3/delete`, {
         method: "DELETE",
         headers: {
@@ -87,7 +93,6 @@ export function Uploader({ value, onChange, onUploadComplete, className }: Uploa
   }
 
   async function uploadFile(file: File) {
-    
     if (fileState.key || value) {
       const keyToDelete = fileState.key || value;
       await deleteFile(keyToDelete!);
@@ -149,15 +154,18 @@ export function Uploader({ value, onChange, onUploadComplete, className }: Uploa
               uploading: false,
               key: key,
             }));
-            
+
             if (onChange) {
               onChange(key);
             }
-            
+
             if (onUploadComplete) {
-              onUploadComplete(key, `https://${process.env.NEXT_PUBLIC_S3_BUCKET_NAME_IMAGES}.s3.amazonaws.com/${key}`);
+              onUploadComplete(
+                key,
+                `https://${process.env.NEXT_PUBLIC_S3_BUCKET_NAME_IMAGES}.s3.amazonaws.com/${key}`
+              );
             }
-            
+
             toast.success("Archivo subido correctamente");
             resolve();
           } else {
@@ -187,29 +195,32 @@ export function Uploader({ value, onChange, onUploadComplete, className }: Uploa
     }
   }
 
-  const onDrop = useCallback((acceptedFiles: File[]) => {
-    if (acceptedFiles.length > 0) {
-      const file = acceptedFiles[0];
+  const onDrop = useCallback(
+    (acceptedFiles: File[]) => {
+      if (acceptedFiles.length > 0) {
+        const file = acceptedFiles[0];
 
-      if (fileState.objectUrl && fileState.objectUrl.startsWith('blob:')) {
-        URL.revokeObjectURL(fileState.objectUrl);
+        if (fileState.objectUrl && fileState.objectUrl.startsWith("blob:")) {
+          URL.revokeObjectURL(fileState.objectUrl);
+        }
+
+        setFileState({
+          file: file,
+          uploading: false,
+          progress: 0,
+          objectUrl: URL.createObjectURL(file),
+          error: false,
+          id: uuidv4(),
+          isDeleting: false,
+          fileType: "image",
+          key: undefined,
+        });
+
+        uploadFile(file);
       }
-
-      setFileState({
-        file: file,
-        uploading: false,
-        progress: 0,
-        objectUrl: URL.createObjectURL(file),
-        error: false,
-        id: uuidv4(),
-        isDeleting: false,
-        fileType: "image",
-        key: undefined,
-      });
-
-      uploadFile(file);
-    }
-  }, [fileState.objectUrl, fileState.key, value]);
+    },
+    [fileState.objectUrl, fileState.key, value]
+  );
 
   function rejectedFiles(fileRejection: FileRejection[]) {
     if (fileRejection.length) {
@@ -235,15 +246,15 @@ export function Uploader({ value, onChange, onUploadComplete, className }: Uploa
 
   const handleDeleteFile = async () => {
     const keyToDelete = fileState.key || value;
-    
+
     if (keyToDelete) {
       await deleteFile(keyToDelete);
     }
-    
-    if (fileState.objectUrl && fileState.objectUrl.startsWith('blob:')) {
+
+    if (fileState.objectUrl && fileState.objectUrl.startsWith("blob:")) {
       URL.revokeObjectURL(fileState.objectUrl);
     }
-    
+
     setFileState({
       error: false,
       file: null,
@@ -255,11 +266,11 @@ export function Uploader({ value, onChange, onUploadComplete, className }: Uploa
       objectUrl: undefined,
       key: undefined,
     });
-    
+
     if (onChange) {
       onChange("");
     }
-    
+
     toast.success("Archivo eliminado");
   };
 
@@ -274,15 +285,15 @@ export function Uploader({ value, onChange, onUploadComplete, className }: Uploa
         </div>
       );
     }
-    
+
     if (fileState.error) {
       return <RenderErrorState />;
     }
 
     if (fileState.objectUrl && (fileState.key || value)) {
       return (
-        <RenderUploadedState 
-          previewUrl={fileState.objectUrl} 
+        <RenderUploadedState
+          previewUrl={fileState.objectUrl}
           onDelete={handleDeleteFile}
           isDeleting={fileState.isDeleting}
         />
@@ -305,7 +316,7 @@ export function Uploader({ value, onChange, onUploadComplete, className }: Uploa
 
   useEffect(() => {
     return () => {
-      if (fileState.objectUrl && fileState.objectUrl.startsWith('blob:')) {
+      if (fileState.objectUrl && fileState.objectUrl.startsWith("blob:")) {
         URL.revokeObjectURL(fileState.objectUrl);
       }
     };

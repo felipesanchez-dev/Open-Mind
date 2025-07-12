@@ -13,6 +13,11 @@ const nextConfig: NextConfig = {
         protocol: "https",
         port: "",
       },
+      {
+        hostname: "open-mind.s3.amazonaws.com",
+        protocol: "https",
+        port: "",
+      },
     ]
   }
 };
