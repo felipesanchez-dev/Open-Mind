@@ -10,7 +10,7 @@ export default async function EditRoute({ params }: { params: Params }) {
     return (
         <div>
             <h1 className="text-3xl font-bold mb-8">
-                Curso a editar: <span>{data.title}</span>
+                Curso a editar: <span className="text-primary underline">{data.title}</span>
             </h1>
            
         </div>
