@@ -12,6 +12,7 @@ import { EditCourseForm } from "./_components/EditCourseForm";
 import { ArrowLeft, BookOpen, Settings } from "lucide-react";
 import Link from "next/link";
 import { Button } from "@/components/ui/button";
+import { CourseStructure } from "./_components/CourseStructure";
 
 type Params = Promise<{ courseId: string }>;
 
@@ -100,33 +101,15 @@ export default async function EditRoute({ params }: { params: Params }) {
           </TabsContent>
 
           <TabsContent value="course-structure" className="space-y-6">
-            <Card className="bg-white dark:bg-slate-800 shadow-sm border-0 shadow-slate-200/60 dark:shadow-slate-900/60">
+            <Card className=" shadow-sm border-0 shadow-slate-200/60 dark:shadow-slate-900/60">
               <CardHeader className="pb-4">
-                <div className="flex items-center gap-3">
-                  <div className="p-2 bg-green-100 dark:bg-green-900/30 rounded-lg">
-                    <BookOpen className="h-5 w-5 text-green-600 dark:text-green-400" />
-                  </div>
-                  <div>
-                    <CardTitle className="text-xl text-slate-900 dark:text-white">
-                      Estructura del curso
-                    </CardTitle>
-                    <CardDescription className="text-slate-600 dark:text-slate-400">
-                      Organiza las lecciones, módulos y contenido del curso
-                    </CardDescription>
-                  </div>
-                </div>
+                <CardTitle>Estructura del curso</CardTitle>
+                <CardDescription className="text-muted-foreground">
+                  Aquí puedes gestionar los módulos, lecciones y recursos del curso
+                </CardDescription>
               </CardHeader>
               <CardContent className="pt-0">
-                {/* Componente de estructura del curso */}
-                <div className="text-center py-12">
-                  <BookOpen className="h-12 w-12 text-slate-400 mx-auto mb-4" />
-                  <h3 className="text-lg font-medium text-slate-900 dark:text-white mb-2">
-                    Próximamente
-                  </h3>
-                  <p className="text-slate-600 dark:text-slate-400">
-                    La funcionalidad de estructura del curso estará disponible pronto
-                  </p>
-                </div>
+                <CourseStructure />
               </CardContent>
             </Card>
           </TabsContent>
